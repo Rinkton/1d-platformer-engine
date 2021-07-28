@@ -67,7 +67,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,10 +80,6 @@
     <ProjectReference Include="..\1DPlatformerEngineConsole\1DPlatformerEngineConsole.csproj">
       <Project>{eec3554f-a703-41ce-9abf-9aee646bb239}</Project>
       <Name>1DPlatformerEngineConsole</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ConsoleVisualizer\ConsoleVisualizer.csproj">
-      <Project>{a2eed3a4-5534-43b3-91dc-97624dcabfb9}</Project>
-      <Name>ConsoleVisualizer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
