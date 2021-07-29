@@ -41,9 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Presets\ConsolePlatformer.cs" />
-    <Compile Include="Presets\ConsoleView.cs" />
-    <Compile Include="IVisualizer.cs" />
+    <Compile Include="ConsolePlatformer.cs" />
+    <Compile Include="ConsoleView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IVisualizer.cs" />
     <Compile Include="Obj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

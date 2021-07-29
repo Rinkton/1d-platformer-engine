@@ -61,9 +61,9 @@
       <Project>{6e0937a8-38cd-4183-a37d-23c226499dd9}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Visualizers\Visualizers.csproj">
+    <ProjectReference Include="..\VisualizerPresets\VisualizerPresets.csproj">
       <Project>{cd081c55-9e6f-4baa-85cc-89b3a6292ef2}</Project>
-      <Name>Visualizers</Name>
+      <Name>VisualizerPresets</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

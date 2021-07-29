@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace Visualizers
+namespace Common
 {
     public interface IVisualizer
     {

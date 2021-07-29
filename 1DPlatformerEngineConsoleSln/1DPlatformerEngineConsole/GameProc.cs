@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using Visualizers;
 
 namespace _1DPlatformerEngineConsole
 {

@@ -1,7 +1,7 @@
 ﻿using _1DPlatformerEngineConsole;
 //TODO: It's worth this underscore?
 using Common;
-using Visualizers;
+using VisualizerPresets;
 
 namespace Game
 {
@@ -10,7 +10,7 @@ namespace Game
         static void Main(string[] args)
         {
             Obj[] firstObjs = new Obj[] { };
-            var visualizer = new Visualizers.Presets.ConsolePlatformer();
+            var visualizer = new VisualizerPresets.ConsolePlatformer();
 
             GameProc gameProc = new GameProc(firstObjs, visualizer);
             gameProc.Run();

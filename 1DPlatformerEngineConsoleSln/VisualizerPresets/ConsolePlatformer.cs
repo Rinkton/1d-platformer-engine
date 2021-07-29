@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace Visualizers.Presets
+namespace VisualizerPresets
 {
     public class ConsolePlatformer : IVisualizer
     {
