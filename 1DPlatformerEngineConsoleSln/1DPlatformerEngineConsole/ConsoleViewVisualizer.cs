@@ -1,8 +1,8 @@
 ﻿using Common;
 
-namespace VisualizerPresets
+namespace _1DPlatformerEngineConsole
 {
-    public class ConsoleView : IVisualizer
+    public class ConsoleViewVisualizer : IVisualizer
     {
         public void Main(Obj[] objs)
         {

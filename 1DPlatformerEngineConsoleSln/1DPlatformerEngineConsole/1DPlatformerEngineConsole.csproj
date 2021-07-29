@@ -46,7 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsolePlatformerVisualizer.cs" />
+    <Compile Include="ConsoleViewVisualizer.cs" />
     <Compile Include="GameProc.cs" />
+    <Compile Include="IVisualizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
