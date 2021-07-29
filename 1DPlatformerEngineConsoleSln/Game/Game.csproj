@@ -57,10 +57,6 @@
       <Project>{eec3554f-a703-41ce-9abf-9aee646bb239}</Project>
       <Name>1DPlatformerEngineConsole</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{6e0937a8-38cd-4183-a37d-23c226499dd9}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

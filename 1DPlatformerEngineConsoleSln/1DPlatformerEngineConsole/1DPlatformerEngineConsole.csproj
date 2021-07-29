@@ -50,16 +50,11 @@
     <Compile Include="ConsoleViewVisualizer.cs" />
     <Compile Include="GameProc.cs" />
     <Compile Include="IVisualizer.cs" />
+    <Compile Include="Obj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{6e0937a8-38cd-4183-a37d-23c226499dd9}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

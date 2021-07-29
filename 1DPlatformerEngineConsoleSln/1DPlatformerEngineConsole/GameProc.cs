@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common;
 
 namespace _1DPlatformerEngineConsole
 {
     public class GameProc
     {
+        public bool EndGame = false;
+
         private List<Obj> objList;
         private IVisualizer visualizer;
-        private bool endGame = false;
 
         public GameProc(Obj[] firstObjs, IVisualizer visualizer)
         {
@@ -22,7 +22,7 @@ namespace _1DPlatformerEngineConsole
 
             while(true)
             {
-                if(endGame)
+                if(EndGame)
                 {
                     break;
                 }
