@@ -1,4 +1,4 @@
-﻿using _1DPlatformerEngineConsole;
+﻿using OneEngine;
 //TODO: It's worth this underscore?
 
 namespace Game

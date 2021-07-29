@@ -53,9 +53,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\1DPlatformerEngineConsole\1DPlatformerEngineConsole.csproj">
+    <ProjectReference Include="..\OneEngine\OneEngine.csproj">
       <Project>{eec3554f-a703-41ce-9abf-9aee646bb239}</Project>
-      <Name>1DPlatformerEngineConsole</Name>
+      <Name>OneEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

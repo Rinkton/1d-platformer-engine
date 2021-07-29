@@ -1,6 +1,6 @@
 ﻿
 
-namespace _1DPlatformerEngineConsole
+namespace OneEngine
 {
     public class ConsolePlatformerVisualizer : IVisualizer
     {
