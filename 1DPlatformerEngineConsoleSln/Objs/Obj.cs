@@ -1,6 +1,6 @@
 ﻿
 
-namespace OneEngine
+namespace Objs
 {
     public class Obj
     {
