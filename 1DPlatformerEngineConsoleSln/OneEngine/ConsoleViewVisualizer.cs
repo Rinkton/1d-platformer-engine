@@ -2,9 +2,14 @@
 
 namespace OneEngine
 {
-    public class ConsoleViewVisualizer : IVisualizer
+    public class ConsoleViewVisualizer : Visualizer
     {
-        public void Main(Obj[] objs)
+        public ConsoleViewVisualizer(int rows, int columns, string windowName) : base(rows, columns, windowName)
+        {
+
+        }
+
+        public override void Main(Obj[] objs)
         {
 
         }

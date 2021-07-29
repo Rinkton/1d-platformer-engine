@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Objs
 {
-    class Block : Obj
+    public class Block : Obj
     {
+        public Block(int x=0, int y=0) : base(x, y) { }
     }
 }

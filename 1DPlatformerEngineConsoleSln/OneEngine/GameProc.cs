@@ -8,9 +8,9 @@ namespace OneEngine
         public bool EndGame = false;
 
         private List<Obj> objList;
-        private IVisualizer visualizer;
+        private Visualizer visualizer;
 
-        public GameProc(Obj[] firstObjs, IVisualizer visualizer)
+        public GameProc(Obj[] firstObjs, Visualizer visualizer)
         {
             objList = new List<Obj>(firstObjs);
             this.visualizer = visualizer;

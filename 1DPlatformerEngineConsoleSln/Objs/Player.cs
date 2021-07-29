@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Objs
 {
-    class Player : Obj
+    public class Player : Obj
     {
+        public Player(int x=0, int y=0) : base(x, y) { }
     }
 }
