@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Objs;
 
 namespace OneEngine
@@ -29,6 +30,8 @@ namespace OneEngine
 
                 visualizer.Main(objList.ToArray());
                 objList.ForEach(obj => obj.Update());
+
+                Thread.Sleep(1000 / Configurator.Fps);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿
 
-namespace Objs
+namespace Objs // TODO: I guess, this project is redundant
 {
     public class Obj
     {
