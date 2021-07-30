@@ -1,4 +1,4 @@
-﻿using Objs;
+﻿
 
 namespace OneEngine
 {
@@ -9,7 +9,7 @@ namespace OneEngine
 
         }
 
-        public override void Main(Obj[] objs)
+        public override void Main(Objs.Obj[] objs)
         {
 
         }

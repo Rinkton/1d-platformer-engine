@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using Objs;
 
 namespace OneEngine
 {
@@ -8,12 +7,12 @@ namespace OneEngine
     {
         public bool EndGame = false;
 
-        private List<Obj> objList;
+        private List<Objs.Obj> objList;
         private Visualizer visualizer;
 
-        public GameProc(Obj[] firstObjs, Visualizer visualizer)
+        public GameProc(Objs.Obj[] firstObjs, Visualizer visualizer)
         {
-            objList = new List<Obj>(firstObjs);
+            objList = new List<Objs.Obj>(firstObjs);
             this.visualizer = visualizer;
         }
 

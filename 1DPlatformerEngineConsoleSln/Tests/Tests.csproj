@@ -81,10 +81,6 @@
       <Project>{53366ddd-d523-4dd9-a082-43e157d7e62f}</Project>
       <Name>Game</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Objs\Objs.csproj">
-      <Project>{b2d7866e-e552-48c7-b7f7-9d196ab40941}</Project>
-      <Name>Objs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OneEngine\OneEngine.csproj">
       <Project>{eec3554f-a703-41ce-9abf-9aee646bb239}</Project>
       <Name>OneEngine</Name>

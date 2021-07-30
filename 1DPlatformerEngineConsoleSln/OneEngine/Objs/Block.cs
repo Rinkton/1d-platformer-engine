@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Objs
+namespace OneEngine.Objs
 {
-    public class Player : Obj
+    public class Block : Obj
     {
-        public Player(int x=0, int y=0) : base(x, y) { }
+        public Block(int x=0, int y=0) : base(x, y) { }
     }
 }

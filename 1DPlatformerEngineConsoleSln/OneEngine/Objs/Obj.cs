@@ -1,6 +1,6 @@
 ﻿
 
-namespace Objs // TODO: I guess, this project is redundant
+namespace OneEngine.Objs // TODO: I guess, this project is redundant
 {
     public class Obj
     {

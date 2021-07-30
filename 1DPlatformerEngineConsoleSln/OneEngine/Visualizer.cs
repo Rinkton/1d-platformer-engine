@@ -1,4 +1,4 @@
-﻿using Objs;
+﻿
 
 namespace OneEngine
 {
@@ -9,6 +9,6 @@ namespace OneEngine
 
         }
 
-        public abstract void Main(Obj[] objs);
+        public abstract void Main(Objs.Obj[] objs);
     }
 }

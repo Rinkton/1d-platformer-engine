@@ -1,5 +1,4 @@
 ﻿using System;
-using Objs;
 using SunshineConsole;
 using OpenTK.Graphics;
 using System.Linq;
@@ -15,14 +14,14 @@ namespace OneEngine
             this.console = new ConsoleWindow(rows, columns, windowName);
         }
 
-        public override void Main(Obj[] objs)
+        public override void Main(Objs.Obj[] objs)
         {
             clearConsole();
 
-            var blockType = new Block().GetType();
-            var playerType = new Player().GetType();
+            var blockType = new Objs.Block().GetType();
+            var playerType = new Objs.Player().GetType();
 
-            foreach (Obj obj in objs)
+            foreach (Objs.Obj obj in objs)
             {
                 int x = obj.X;
                 int y = obj.Y;
