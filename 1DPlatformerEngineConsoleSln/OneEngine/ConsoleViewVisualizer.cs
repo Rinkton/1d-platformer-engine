@@ -1,4 +1,4 @@
-﻿
+﻿using OpenTK.Input;
 
 namespace OneEngine
 {
@@ -12,6 +12,11 @@ namespace OneEngine
         public override void Main(Objs.Obj[] objs)
         {
 
+        }
+
+        public override Key GetKey()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

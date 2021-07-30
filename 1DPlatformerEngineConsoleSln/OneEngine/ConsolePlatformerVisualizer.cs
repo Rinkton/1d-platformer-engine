@@ -2,6 +2,7 @@
 using SunshineConsole;
 using OpenTK.Graphics;
 using System.Linq;
+using OpenTK.Input;
 
 namespace OneEngine
 {
@@ -28,11 +29,17 @@ namespace OneEngine
 
                 if(blockType == obj.GetType())
                 {
-                    drawSymbol(x, y, '*', Color4.LightGray);
+                    drawSymbol(x, y, '*', Configurator.DefaultColor);
                 }
                 else if(playerType == obj.GetType())
                 {
-                    drawSymbol(x, y, ')', Color4.LightGray);
+                    for (int yy = 0; yy < new Objs.Player().Height; yy++)
+                    {
+                        for (int xx = 0; xx < new Objs.Player().Width; xx++)
+                        {
+                            drawSymbol(x+xx, y+yy, ')', Configurator.DefaultColor);
+                        }
+                    }
                 }
             }
 
@@ -41,6 +48,11 @@ namespace OneEngine
                 //TODO: Not so good decision, but I hope it's temporarily
                 throw new Exception("WindowUpdate return false.");
             }
+        }
+
+        public override Key GetKey()
+        {
+            return console.GetKey();
         }
 
         private void clearConsole()

@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KeyKeeper.cs" />
+    <Compile Include="ObjList.cs" />
     <Compile Include="Objs\Block.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="ConsolePlatformerVisualizer.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="GameProc.cs" />
     <Compile Include="Objs\Obj.cs" />
     <Compile Include="Objs\Player.cs" />
+    <Compile Include="Timer.cs" />
     <Compile Include="Visualizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
