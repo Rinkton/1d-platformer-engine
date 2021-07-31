@@ -35,12 +35,12 @@ namespace OneEngine.Objs
         public override void Update()
         {
             #region jump and gravity
-            int floorDistance = getVerticalDistance(true);
+            int floorDistance = getVerticalDistance(ObjMoveType.Down);
 
             if(jumping == false)
             {
                 MoveResult fallResult = move(fallPeriodStart, fallPeriodChange, fallStopwatch,
-                fallIteration, ObjMoveType.Nothing, ObjMoveType.Positive);
+                fallIteration, ObjMoveType.Down);
                 switch (fallResult)
                 {
                     case MoveResult.NotTimeYet:
@@ -58,7 +58,7 @@ namespace OneEngine.Objs
             if((KeyKeeper.Key == Key.Space && floorDistance == 0) || jumping)
             {
                 MoveResult jumpResult = move(jumpPeriodStart, jumpPeriodChange, jumpStopwatch, 
-                    jumpIteration, ObjMoveType.Nothing, ObjMoveType.Negative, jumpPeriodMaximum);
+                    jumpIteration, ObjMoveType.Up, jumpPeriodMaximum);
                 switch(jumpResult)
                 {
                     case MoveResult.NotTimeYet:
@@ -102,8 +102,9 @@ namespace OneEngine.Objs
         /// returns that boosting ends</param>
         /// <returns></returns>
         private MoveResult move(int periodStart, int periodChange, Stopwatch stopwatch, 
-            int iteration, ObjMoveType x, ObjMoveType y, int periodMaximum = 0)
+            int iteration, ObjMoveType objMoveType, int periodMaximum = 0)
         {
+            //TODO: But fall must have no
             bool firstMove = false;
             if(iteration == 0)
             {
@@ -117,8 +118,7 @@ namespace OneEngine.Objs
 
             int periodActual = periodStart + (periodChange * iteration);
 
-            bool moveDown = y == ObjMoveType.Positive;
-            if (getVerticalDistance(moveDown) == 0)
+            if (getVerticalDistance(objMoveType) == 0)
             {
                 return MoveResult.ReachedObstacle;
             }
@@ -138,41 +138,68 @@ namespace OneEngine.Objs
                 return MoveResult.BoostEnded;
             }
 
-            objMove(x, y);
+            objMove(objMoveType);
             stopwatch.Stop();
 
             return MoveResult.Ok;
         }
 
-        private int getVerticalDistance(bool floor)
+        private int getVerticalDistance(ObjMoveType objMoveType)
         {
-            int xx = X;
+            int x = 0;
+            int y = 0;
+            switch (objMoveType)
+            {
+                case ObjMoveType.Up:
+                    y += Y + -1;
+                    break;
+                case ObjMoveType.Right:
+                    x += X + Width;
+                    break;
+                case ObjMoveType.Down:
+                    y += Y + Height;
+                    break;
+                case ObjMoveType.Left:
+                    x += X + -1;
+                    break;
+            }
+            bool vertical = objMoveType == ObjMoveType.Up || objMoveType == ObjMoveType.Down;
+            // Is calculating distance go along positive coordinates
+            bool byPositive = objMoveType == ObjMoveType.Right || objMoveType == ObjMoveType.Down;
 
-            int yy;
-            if(floor)
-            {
-                yy = Y + Height;
-            }
-            else
-            {
-                yy = Y - 1;
-            }
             int max = 8;
 
-            for(int i = 0; i < max; i++)
+            for (int i = 0; i < max; i++)
             {
                 //Count distance for anyone Obj
-                foreach(Obj obj in ObjList.Content)
+                foreach (Obj obj in ObjList.Content)
                 {
-                    for(int x = 0; x < Width; x++)
+                    if(vertical)
                     {
-                        if(obj.X == xx + x && obj.Y == yy + i && floor)
+                        for (int xx = 0; xx < Width; xx++)
                         {
-                            return i;
+                            if(obj.X == xx + x && obj.Y == y + i && byPositive)
+                            {
+                                return i;
+                            }
+                            else if(obj.X == xx + x && obj.Y == y - i && !byPositive)
+                            {
+                                return i;
+                            }
                         }
-                        else if (obj.X == xx + x && obj.Y == yy - i && !floor)
+                    }
+                    else
+                    {
+                        for (int yy = 0; yy < Height; yy++)
                         {
-                            return i;
+                            if(obj.X == x + i && obj.Y == yy + y && byPositive)
+                            {
+                                return i;
+                            }
+                            else if(obj.X == x - i && obj.Y == yy + y && !byPositive)
+                            {
+                                return i;
+                            }
                         }
                     }
                 }
@@ -183,9 +210,10 @@ namespace OneEngine.Objs
 
         enum ObjMoveType
         {
-            Positive = 1,
-            Nothing = 0,
-            Negative = -1
+            Up,
+            Right,
+            Down,
+            Left
         }
 
         /// <summary>
@@ -193,10 +221,27 @@ namespace OneEngine.Objs
         /// </summary>
         /// <param name="moveX"></param>
         /// <param name="moveY"></param>
-        private void objMove(ObjMoveType moveX, ObjMoveType moveY)
+        private void objMove(ObjMoveType objMoveType)
         {
-            X += (int)moveX;
-            Y += (int)moveY;
+            switch(objMoveType)
+            {
+                case ObjMoveType.Up:
+                    X += 0;
+                    Y += -1;
+                    break;
+                case ObjMoveType.Right:
+                    X += 1;
+                    Y += 0;
+                    break;
+                case ObjMoveType.Down:
+                    X += 0;
+                    Y += 1;
+                    break;
+                case ObjMoveType.Left:
+                    X += -1;
+                    Y += 0;
+                    break;
+            }
         }
 
         private void turn()
