@@ -35,7 +35,7 @@ namespace OneEngine.Objs
         public override void Update()
         {
             #region jump and gravity
-            int floorDistance = getVerticalDistance(ObjMoveType.Down);
+            int floorDistance = getDistance(ObjMoveType.Down);
 
             if(jumping == false)
             {
@@ -118,7 +118,7 @@ namespace OneEngine.Objs
 
             int periodActual = periodStart + (periodChange * iteration);
 
-            if (getVerticalDistance(objMoveType) == 0)
+            if (getDistance(objMoveType) == 0)
             {
                 return MoveResult.ReachedObstacle;
             }
@@ -144,7 +144,7 @@ namespace OneEngine.Objs
             return MoveResult.Ok;
         }
 
-        private int getVerticalDistance(ObjMoveType objMoveType)
+        private int getDistance(ObjMoveType objMoveType)
         {
             int x = 0;
             int y = 0;
