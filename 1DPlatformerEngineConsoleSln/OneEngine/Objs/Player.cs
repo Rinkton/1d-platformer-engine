@@ -37,19 +37,22 @@ namespace OneEngine.Objs
             #region jump and gravity
             int floorDistance = getVerticalDistance(true);
 
-            MoveResult fallResult = move(fallPeriodStart, fallPeriodChange, fallStopwatch,
-                fallIteration, ObjMoveType.Nothing, ObjMoveType.Positive);
-            switch (fallResult)
+            if(jumping == false)
             {
-                case MoveResult.NotTimeYet:
-                    break;
-                case MoveResult.ReachedObstacle:
-                case MoveResult.BoostEnded:
-                    fallIteration = 0;
-                    break;
-                case MoveResult.Ok:
-                    fallIteration++;
-                    break;
+                MoveResult fallResult = move(fallPeriodStart, fallPeriodChange, fallStopwatch,
+                fallIteration, ObjMoveType.Nothing, ObjMoveType.Positive);
+                switch (fallResult)
+                {
+                    case MoveResult.NotTimeYet:
+                        break;
+                    case MoveResult.ReachedObstacle:
+                    case MoveResult.BoostEnded:
+                        fallIteration = 0;
+                        break;
+                    case MoveResult.Ok:
+                        fallIteration++;
+                        break;
+                }
             }
 
             if((KeyKeeper.Key == Key.Space && floorDistance == 0) || jumping)
@@ -67,6 +70,7 @@ namespace OneEngine.Objs
                         break;
                     case MoveResult.Ok:
                         jumpIteration++;
+                        jumping = true;
                         break;
                 }
             }
@@ -122,8 +126,6 @@ namespace OneEngine.Objs
             {
                 return MoveResult.NotTimeYet;
             }
-
-            System.Diagnostics.Debug.WriteLine("time: " + stopwatch.GetTime() + " actual: " + periodActual + " first move: " + firstMove);
 
             if (periodActual < 1)
             {
