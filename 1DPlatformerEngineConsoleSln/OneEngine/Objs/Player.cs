@@ -13,14 +13,14 @@ namespace OneEngine.Objs
         #region variables for moving (their description contains in move method, in XML comment)
         private const int jumpPeriodStart = 500;
         private const int jumpPeriodChange = 100;
-        Stopwatch jumpStopwatch = new Stopwatch();
+        private readonly Stopwatch jumpStopwatch = new Stopwatch();
         private int jumpIteration = 0;
-        private const int jumpMaximumPeriod = 800;
+        private const int jumpPeriodMaximum = 800;
         private bool jumping = false;
 
         private const int fallPeriodStart = 500;
         private const int fallPeriodChange = -100;
-        Stopwatch fallStopwatch = new Stopwatch();
+        private readonly Stopwatch fallStopwatch = new Stopwatch();
         private int fallIteration = 0;
         #endregion
 
@@ -37,15 +37,52 @@ namespace OneEngine.Objs
             #region jump and gravity
             int floorDistance = getVerticalDistance(true);
 
-            if(floorDistance > 0 && jumping == false)
+            MoveResult fallResult = move(fallPeriodStart, fallPeriodChange, fallStopwatch,
+                fallIteration, ObjMoveType.Nothing, ObjMoveType.Positive);
+            switch (fallResult)
             {
-                move(fallPeriodStart)
+                case MoveResult.NotTimeYet:
+                    break;
+                case MoveResult.ReachedObstacle:
+                case MoveResult.BoostEnded:
+                    fallIteration = 0;
+                    break;
+                case MoveResult.Ok:
+                    fallIteration++;
+                    break;
             }
+
             if((KeyKeeper.Key == Key.Space && floorDistance == 0) || jumping)
             {
-
+                MoveResult jumpResult = move(jumpPeriodStart, jumpPeriodChange, jumpStopwatch, 
+                    jumpIteration, ObjMoveType.Nothing, ObjMoveType.Negative, jumpPeriodMaximum);
+                switch(jumpResult)
+                {
+                    case MoveResult.NotTimeYet:
+                        break;
+                    case MoveResult.ReachedObstacle:
+                    case MoveResult.BoostEnded:
+                        jumpIteration = 0;
+                        jumping = false;
+                        break;
+                    case MoveResult.Ok:
+                        jumpIteration++;
+                        break;
+                }
+            }
+            else
+            {
+                jumpIteration = 0;
             }
             #endregion
+        }
+
+        enum MoveResult
+        {
+            NotTimeYet,
+            ReachedObstacle,
+            BoostEnded,
+            Ok
         }
 
         /// <summary>
@@ -59,11 +96,50 @@ namespace OneEngine.Objs
         /// <param name="y"></param>
         /// <param name="periodMaximum">Time in milliseconds. Reaching this period method function 
         /// returns that boosting ends</param>
-        /// <returns>boostEnd. If it have periodMaximum and if this one reached, then it will returns true</returns>
-        private bool move(int periodStart, int periodChange, Stopwatch stopwatch, 
+        /// <returns></returns>
+        private MoveResult move(int periodStart, int periodChange, Stopwatch stopwatch, 
             int iteration, ObjMoveType x, ObjMoveType y, int periodMaximum = 0)
         {
-            return false;
+            bool firstMove = false;
+            if(iteration == 0)
+            {
+                firstMove = true;
+            }
+            
+            if(stopwatch.Activated == false)
+            {
+                stopwatch.Restart();
+            }
+
+            int periodActual = periodStart + (periodChange * iteration);
+
+            bool moveDown = y == ObjMoveType.Positive;
+            if (getVerticalDistance(moveDown) == 0)
+            {
+                return MoveResult.ReachedObstacle;
+            }
+            if (stopwatch.GetTime() <= periodActual && firstMove == false)
+            {
+                return MoveResult.NotTimeYet;
+            }
+
+            System.Diagnostics.Debug.WriteLine("time: " + stopwatch.GetTime() + " actual: " + periodActual + " first move: " + firstMove);
+
+            if (periodActual < 1)
+            {
+                periodActual = 1; //If it 0 - it will crashed(zero division)
+            }
+
+            bool periodIsSet = periodMaximum != 0;
+            if(periodIsSet && periodActual >= periodMaximum)
+            {
+                return MoveResult.BoostEnded;
+            }
+
+            objMove(x, y);
+            stopwatch.Stop();
+
+            return MoveResult.Ok;
         }
 
         private int getVerticalDistance(bool floor)
