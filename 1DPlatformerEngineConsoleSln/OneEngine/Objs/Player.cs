@@ -10,17 +10,19 @@ namespace OneEngine.Objs
 
         public bool TurnedRight { get; private set; }
 
-        private const int jumpMovePeriodStart = 500;
+        #region variables for moving (their description contains in move method, in XML comment)
+        private const int jumpPeriodStart = 500;
         private const int jumpPeriodChange = 100;
-        private const int jumpMaximumPeriod = 800;
         Stopwatch jumpStopwatch = new Stopwatch();
+        private int jumpIteration = 0;
+        private const int jumpMaximumPeriod = 800;
         private bool jumping = false;
-        private int jumpMoveIteration = 0;
 
-        private const int fallMovePeriodStart = 500;
+        private const int fallPeriodStart = 500;
         private const int fallPeriodChange = -100;
         Stopwatch fallStopwatch = new Stopwatch();
-        private int fallMoveIteration = 0;
+        private int fallIteration = 0;
+        #endregion
 
         public Player(int x=0, int y=0) : base(x, y)
         {
@@ -37,36 +39,31 @@ namespace OneEngine.Objs
 
             if(floorDistance > 0 && jumping == false)
             {
-                if(fallStopwatch.Activated == false)
-                {
-                    fallStopwatch.Restart();
-                }
-                else
-                {
-                    fall();
-                }
-            }
-            else
-            {
-                fallMoveIteration = 0;
+                move(fallPeriodStart)
             }
             if((KeyKeeper.Key == Key.Space && floorDistance == 0) || jumping)
             {
-                if (jumpStopwatch.Activated == false)
-                {
-                    jumpStopwatch.Restart();
-                    jumping = true;
-                }
-                else
-                {
-                    jump();
-                }
-            }
-            else
-            {
-                jumpMoveIteration = 0;
+
             }
             #endregion
+        }
+
+        /// <summary>
+        /// Responsible for any kind of Player's moving
+        /// </summary>
+        /// <param name="periodStart">Time in milliseconds player moving at start</param>
+        /// <param name="periodChange">Time in milliseconds player boosting every iteration</param>
+        /// <param name="stopwatch">Stopwatch for get time exacty for this moving</param>
+        /// <param name="iteration">Count of times player moving this type. Needed for OK work of boosting</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="periodMaximum">Time in milliseconds. Reaching this period method function 
+        /// returns that boosting ends</param>
+        /// <returns>boostEnd. If it have periodMaximum and if this one reached, then it will returns true</returns>
+        private bool move(int periodStart, int periodChange, Stopwatch stopwatch, 
+            int iteration, ObjMoveType x, ObjMoveType y, int periodMaximum = 0)
+        {
+            return false;
         }
 
         private int getVerticalDistance(bool floor)
@@ -106,70 +103,19 @@ namespace OneEngine.Objs
             return max;
         }
 
-        private void fall()
-        {
-            int fallMovePeriodActual = fallMovePeriodStart + (fallPeriodChange * jumpMoveIteration);
-            if(fallMovePeriodActual < 1)
-            {
-                fallMovePeriodActual = 1; //If it 0 - it will crashed(zero division)
-            }
-            double movesPerFrameNonRounded = Convert.ToDouble(fallStopwatch.GetTime() / fallMovePeriodActual);
-            int movesPerFrame = Convert.ToInt32(Math.Ceiling(movesPerFrameNonRounded));
-            for (int i = 0; i < movesPerFrame; i++)
-            {
-                if(getVerticalDistance(true) > 0)
-                {
-                    move(Move.Nothing, Move.Positive);
-                    fallMoveIteration++;
-                    fallStopwatch.Stop();
-
-                    // if we have more than one move per this frame, then it useful
-                    fallMovePeriodActual = fallMovePeriodStart + (fallPeriodChange * fallMoveIteration);
-                }
-            }
-        }
-
-        private void jump()
-        {
-            int jumpMovePeriodActual = jumpMovePeriodStart + (jumpPeriodChange * jumpMoveIteration);
-            if (jumpMovePeriodActual < 1)
-            {
-                jumpMovePeriodActual = 1; //If it 0 - it will crashed(zero division)
-            }
-            double movesPerFrameNonRounded = Convert.ToDouble(jumpStopwatch.GetTime() / jumpMovePeriodActual);
-            int movesPerFrame = Convert.ToInt32(Math.Ceiling(movesPerFrameNonRounded));
-            ///!!!
-            int maximumMoves = (jumpMaximumPeriod - jumpMovePeriodActual) / jumpPeriodChange;
-            //TODO: If per frame happened many events, then it do what can in this case, but remaining events...
-            //TODO: ...don't give to others.
-            if (movesPerFrame > maximumMoves)
-            {
-                movesPerFrame = maximumMoves;
-                jumping = false;
-            }
-            ///!!!
-            for (int i = 0; i < movesPerFrame; i++)
-            {
-                if (getVerticalDistance(false) > 0) //!!! false
-                {
-                    move(Move.Nothing, Move.Negative);
-                    jumpMoveIteration++;
-                    jumpStopwatch.Stop();
-
-                    // if we have more than one move per this frame, then it useful
-                    jumpMovePeriodActual = jumpMovePeriodStart + (jumpPeriodChange * jumpMoveIteration);
-                }
-            }
-        }
-
-        enum Move
+        enum ObjMoveType
         {
             Positive = 1,
             Nothing = 0,
             Negative = -1
         }
 
-        private void move(Move moveX, Move moveY)
+        /// <summary>
+        /// Move Player like just Obj in ObjList.Content
+        /// </summary>
+        /// <param name="moveX"></param>
+        /// <param name="moveY"></param>
+        private void objMove(ObjMoveType moveX, ObjMoveType moveY)
         {
             X += (int)moveX;
             Y += (int)moveY;
