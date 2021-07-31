@@ -14,6 +14,6 @@ namespace OneEngine
 
         public abstract void Main(Objs.Obj[] objs);
 
-        public abstract Key GetKey();
+        public abstract void SetKeys();
     }
 }

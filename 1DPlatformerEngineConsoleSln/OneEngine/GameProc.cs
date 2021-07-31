@@ -27,7 +27,7 @@ namespace OneEngine
                 }
 
                 visualizer.Main(ObjList.Content.ToArray());
-                KeyKeeper.Key = visualizer.GetKey();
+                visualizer.SetKeys();
                 ObjList.Content.ForEach(obj => obj.Update());
 
                 Thread.Sleep(1000 / Configurator.Fps);

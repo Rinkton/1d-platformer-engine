@@ -22,6 +22,12 @@ namespace OneEngine.Objs
         private const int fallPeriodChange = -100;
         private readonly Stopwatch fallStopwatch = new Stopwatch();
         private int fallIteration = 0;
+
+        private const int walkPeriodStart = 500;
+        private const int walkPeriodChange = -50;
+        private readonly Stopwatch walkStopwatch = new Stopwatch();
+        private int walkIteration = 0;
+        private const int walkPeriodMaximum = 400;
         #endregion
 
         public Player(int x=0, int y=0) : base(x, y)
@@ -31,7 +37,7 @@ namespace OneEngine.Objs
 
             TurnedRight = true;
         }
-
+        //TODO: Fucking problems with collision
         public override void Update()
         {
             #region jump and gravity
@@ -46,7 +52,6 @@ namespace OneEngine.Objs
                     case MoveResult.NotTimeYet:
                         break;
                     case MoveResult.ReachedObstacle:
-                    case MoveResult.BoostEnded:
                         fallIteration = 0;
                         break;
                     case MoveResult.Ok:
@@ -55,7 +60,7 @@ namespace OneEngine.Objs
                 }
             }
 
-            if((KeyKeeper.Key == Key.Space && floorDistance == 0) || jumping)
+            if((KeyChecker.Space && floorDistance == 0) || jumping)
             {
                 MoveResult jumpResult = move(jumpPeriodStart, jumpPeriodChange, jumpStopwatch, 
                     jumpIteration, ObjMoveType.Up, jumpPeriodMaximum);
@@ -78,6 +83,32 @@ namespace OneEngine.Objs
             {
                 jumpIteration = 0;
             }
+
+            if (KeyChecker.W || KeyChecker.S)
+            {
+                ObjMoveType moveDirection = (KeyChecker.W ^ TurnedRight) 
+                    ? ObjMoveType.Left : ObjMoveType.Right;
+                MoveResult walkResult = move(walkPeriodStart, walkPeriodChange, walkStopwatch,
+                    walkIteration, moveDirection, walkPeriodMaximum);
+                switch (walkResult)
+                {
+                    case MoveResult.NotTimeYet:
+                        break;
+                    case MoveResult.ReachedObstacle:
+                        walkIteration = 0;
+                        break;
+                    case MoveResult.BoostEnded:
+                        break;
+                    case MoveResult.Ok:
+                        walkIteration++;
+                        break;
+                }
+            }
+            else
+            {
+                walkIteration = 0;
+            }
+            //TODO: Turn
             #endregion
         }
 
@@ -132,14 +163,15 @@ namespace OneEngine.Objs
                 periodActual = 1; //If it 0 - it will crashed(zero division)
             }
 
+            //TODO: With jump it so bad go to up
+            objMove(objMoveType);
+            stopwatch.Stop();
+
             bool periodIsSet = periodMaximum != 0;
-            if(periodIsSet && periodActual >= periodMaximum)
+            if(periodIsSet && periodActual == periodMaximum)
             {
                 return MoveResult.BoostEnded;
             }
-
-            objMove(objMoveType);
-            stopwatch.Stop();
 
             return MoveResult.Ok;
         }

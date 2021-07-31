@@ -2,7 +2,7 @@
 
 namespace OneEngine
 {
-    static class ObjList //TODO: Though, I can do static GameProc
+    static class ObjList
     {
         public static List<Objs.Obj> Content;
     }

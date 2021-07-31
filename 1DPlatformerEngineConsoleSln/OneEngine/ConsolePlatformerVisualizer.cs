@@ -50,9 +50,12 @@ namespace OneEngine
             }
         }
 
-        public override Key GetKey()
+        public override void SetKeys()
         {
-            return console.GetKey();
+            KeyChecker.W = console.KeyIsDown(Key.W);
+            KeyChecker.S = console.KeyIsDown(Key.S);
+            KeyChecker.Space = console.KeyIsDown(Key.Space);
+            KeyChecker.R = console.KeyIsDown(Key.R);
         }
 
         private void clearConsole()

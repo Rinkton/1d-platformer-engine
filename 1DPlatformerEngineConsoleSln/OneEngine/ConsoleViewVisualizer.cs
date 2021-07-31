@@ -14,7 +14,7 @@ namespace OneEngine
 
         }
 
-        public override Key GetKey()
+        public override void SetKeys()
         {
             throw new System.NotImplementedException();
         }

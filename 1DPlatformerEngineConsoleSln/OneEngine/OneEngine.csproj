@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyKeeper.cs" />
+    <Compile Include="KeyChecker.cs" />
     <Compile Include="ObjList.cs" />
     <Compile Include="Objs\Block.cs" />
     <Compile Include="Configurator.cs" />
