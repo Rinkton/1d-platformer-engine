@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenTK.Input;
 
 namespace OneEngine.Objs
 {
@@ -13,16 +10,17 @@ namespace OneEngine.Objs
 
         public bool TurnedRight { get; private set; }
 
-        Stopwatch stopwatch = new Stopwatch();
-
         private const int jumpMovePeriodStart = 500;
         private const int jumpPeriodChange = 100;
         private const int jumpMaximumPeriod = 800;
+        Stopwatch jumpStopwatch = new Stopwatch();
+        private bool jumping = false;
+        private int jumpMoveIteration = 0;
 
         private const int fallMovePeriodStart = 500;
         private const int fallPeriodChange = -100;
-
-        private int moveIteration = 0;
+        Stopwatch fallStopwatch = new Stopwatch();
+        private int fallMoveIteration = 0;
 
         public Player(int x=0, int y=0) : base(x, y)
         {
@@ -37,12 +35,11 @@ namespace OneEngine.Objs
             #region jump and gravity
             int floorDistance = getVerticalDistance(true);
 
-            //TODO: Only one timer for fall, jump and all another?! Care yourself, there are can be bugs!
-            if(floorDistance > 0)
+            if(floorDistance > 0 && jumping == false)
             {
-                if(stopwatch.Activated == false)
+                if(fallStopwatch.Activated == false)
                 {
-                    stopwatch.Restart();
+                    fallStopwatch.Restart();
                 }
                 else
                 {
@@ -51,13 +48,27 @@ namespace OneEngine.Objs
             }
             else
             {
-                moveIteration = 0;
+                fallMoveIteration = 0;
+            }
+            if((KeyKeeper.Key == Key.Space && floorDistance == 0) || jumping)
+            {
+                if (jumpStopwatch.Activated == false)
+                {
+                    jumpStopwatch.Restart();
+                    jumping = true;
+                }
+                else
+                {
+                    jump();
+                }
+            }
+            else
+            {
+                jumpMoveIteration = 0;
             }
             #endregion
         }
 
-        // These functions are have arguments, though they can don't, because it more easier to test //
-        // TODO: Is message above is needed)?
         private int getVerticalDistance(bool floor)
         {
             int xx = X;
@@ -97,20 +108,56 @@ namespace OneEngine.Objs
 
         private void fall()
         {
-            int fallMovePeriodActual = fallMovePeriodStart + (fallPeriodChange * moveIteration);
+            int fallMovePeriodActual = fallMovePeriodStart + (fallPeriodChange * jumpMoveIteration);
             if(fallMovePeriodActual < 1)
             {
                 fallMovePeriodActual = 1; //If it 0 - it will crashed(zero division)
             }
-            double movesPerFrameNonRounded = Convert.ToDouble(stopwatch.GetTime() / fallMovePeriodActual);
+            double movesPerFrameNonRounded = Convert.ToDouble(fallStopwatch.GetTime() / fallMovePeriodActual);
             int movesPerFrame = Convert.ToInt32(Math.Ceiling(movesPerFrameNonRounded));
             for (int i = 0; i < movesPerFrame; i++)
             {
                 if(getVerticalDistance(true) > 0)
                 {
                     move(Move.Nothing, Move.Positive);
-                    moveIteration++;
-                    stopwatch.Stop();
+                    fallMoveIteration++;
+                    fallStopwatch.Stop();
+
+                    // if we have more than one move per this frame, then it useful
+                    fallMovePeriodActual = fallMovePeriodStart + (fallPeriodChange * fallMoveIteration);
+                }
+            }
+        }
+
+        private void jump()
+        {
+            int jumpMovePeriodActual = jumpMovePeriodStart + (jumpPeriodChange * jumpMoveIteration);
+            if (jumpMovePeriodActual < 1)
+            {
+                jumpMovePeriodActual = 1; //If it 0 - it will crashed(zero division)
+            }
+            double movesPerFrameNonRounded = Convert.ToDouble(jumpStopwatch.GetTime() / jumpMovePeriodActual);
+            int movesPerFrame = Convert.ToInt32(Math.Ceiling(movesPerFrameNonRounded));
+            ///!!!
+            int maximumMoves = (jumpMaximumPeriod - jumpMovePeriodActual) / jumpPeriodChange;
+            //TODO: If per frame happened many events, then it do what can in this case, but remaining events...
+            //TODO: ...don't give to others.
+            if (movesPerFrame > maximumMoves)
+            {
+                movesPerFrame = maximumMoves;
+                jumping = false;
+            }
+            ///!!!
+            for (int i = 0; i < movesPerFrame; i++)
+            {
+                if (getVerticalDistance(false) > 0) //!!! false
+                {
+                    move(Move.Nothing, Move.Negative);
+                    jumpMoveIteration++;
+                    jumpStopwatch.Stop();
+
+                    // if we have more than one move per this frame, then it useful
+                    jumpMovePeriodActual = jumpMovePeriodStart + (jumpPeriodChange * jumpMoveIteration);
                 }
             }
         }
