@@ -37,7 +37,9 @@ namespace OneEngine
                     {
                         for (int xx = 0; xx < new Objs.Player().Width; xx++)
                         {
-                            drawSymbol(x+xx, y+yy, ')', Configurator.DefaultColor);
+                            bool turnedRight = ObjList.GetContent().OfType<Objs.Player>().First().TurnedRight;
+                            char symbol = turnedRight ? ')' : '(';
+                            drawSymbol(x+xx, y+yy, symbol, Configurator.DefaultColor);
                         }
                     }
                 }

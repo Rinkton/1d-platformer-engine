@@ -8,8 +8,6 @@ namespace OneEngine.Objs
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public bool TurnedRight { get; private set; }
-
         #region variables for moving (their description contains in move method, in XML comment)
         private const int jumpPeriodStart = 0;
         private const int jumpPeriodChange = 200;
@@ -29,6 +27,9 @@ namespace OneEngine.Objs
         private int walkIteration = 0;
         private const int walkPeriodMaximum = 400;
         #endregion
+
+        public bool TurnedRight { get; private set; }
+        private bool alreadyTurned = false;
 
         public Player(int x=0, int y=0) : base(x, y)
         {
@@ -84,10 +85,12 @@ namespace OneEngine.Objs
             {
                 jumpIteration = 0;
             }
+            #endregion
 
+            #region walk
             if (KeyChecker.W || KeyChecker.S)
             {
-                ObjMoveType moveDirection = (KeyChecker.W ^ TurnedRight) 
+                ObjMoveType moveDirection = (KeyChecker.W ^ TurnedRight)
                     ? ObjMoveType.Left : ObjMoveType.Right;
                 MoveResult walkResult = move(walkPeriodStart, walkPeriodChange, walkStopwatch,
                     walkIteration, moveDirection, walkPeriodMaximum);
@@ -109,7 +112,22 @@ namespace OneEngine.Objs
             {
                 walkIteration = 0;
             }
-            //TODO: Turn
+            #endregion
+
+            #region turn
+            if(KeyChecker.R)
+            {
+                if(alreadyTurned == false)
+                {
+                    turn();
+                    alreadyTurned = true;
+                }
+            }
+            else
+            {
+                alreadyTurned = false;
+            }
+
             #endregion
         }
 
