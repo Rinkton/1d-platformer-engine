@@ -62,7 +62,11 @@ namespace OneEngine.Objs
             }
 
             //TODO: But if user key down space between frames it's will don't work
-            if ((KeyChecker.Space && floorDistance == 0) || jumping)
+            if(KeyChecker.Space == false) //It's provide variable jump height
+            {
+                jumping = false;
+            }
+            if((KeyChecker.Space && floorDistance == 0) || jumping)
             {
                 MoveResult jumpResult = move(jumpPeriodStart, jumpPeriodChange, jumpStopwatch, 
                     jumpIteration, ObjMoveType.Up, jumpPeriodMaximum);
