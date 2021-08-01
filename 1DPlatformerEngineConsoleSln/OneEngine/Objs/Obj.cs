@@ -7,7 +7,7 @@ namespace OneEngine.Objs
         public int X;
         public int Y;
 
-        public Obj(int x, int y)
+        public Obj(int x=0, int y=0)
         {
             X = x;
             Y = y;

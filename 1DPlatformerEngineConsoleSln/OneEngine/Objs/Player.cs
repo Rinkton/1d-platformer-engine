@@ -11,8 +11,8 @@ namespace OneEngine.Objs
         public bool TurnedRight { get; private set; }
 
         #region variables for moving (their description contains in move method, in XML comment)
-        private const int jumpPeriodStart = 500;
-        private const int jumpPeriodChange = 100;
+        private const int jumpPeriodStart = 0;
+        private const int jumpPeriodChange = 200;
         private readonly Stopwatch jumpStopwatch = new Stopwatch();
         private int jumpIteration = 0;
         private const int jumpPeriodMaximum = 800;
@@ -37,7 +37,7 @@ namespace OneEngine.Objs
 
             TurnedRight = true;
         }
-        //TODO: Fucking problems with collision
+
         public override void Update()
         {
             #region jump and gravity
@@ -60,7 +60,8 @@ namespace OneEngine.Objs
                 }
             }
 
-            if((KeyChecker.Space && floorDistance == 0) || jumping)
+            //TODO: But if user key down space between frames it's will don't work
+            if ((KeyChecker.Space && floorDistance == 0) || jumping)
             {
                 MoveResult jumpResult = move(jumpPeriodStart, jumpPeriodChange, jumpStopwatch, 
                     jumpIteration, ObjMoveType.Up, jumpPeriodMaximum);
@@ -135,13 +136,6 @@ namespace OneEngine.Objs
         private MoveResult move(int periodStart, int periodChange, Stopwatch stopwatch, 
             int iteration, ObjMoveType objMoveType, int periodMaximum = 0)
         {
-            //TODO: But fall must have no
-            bool firstMove = false;
-            if(iteration == 0)
-            {
-                firstMove = true;
-            }
-            
             if(stopwatch.Activated == false)
             {
                 stopwatch.Restart();
@@ -153,14 +147,9 @@ namespace OneEngine.Objs
             {
                 return MoveResult.ReachedObstacle;
             }
-            if (stopwatch.GetTime() <= periodActual && firstMove == false)
+            if (stopwatch.GetTime() <= periodActual && periodActual > 0)
             {
                 return MoveResult.NotTimeYet;
-            }
-
-            if (periodActual < 1)
-            {
-                periodActual = 1; //If it 0 - it will crashed(zero division)
             }
 
             //TODO: With jump it so bad go to up
@@ -178,21 +167,21 @@ namespace OneEngine.Objs
 
         private int getDistance(ObjMoveType objMoveType)
         {
-            int x = 0;
-            int y = 0;
+            int x = X;
+            int y = Y;
             switch (objMoveType)
             {
                 case ObjMoveType.Up:
-                    y += Y + -1;
+                    y += -1;
                     break;
                 case ObjMoveType.Right:
-                    x += X + Width;
+                    x += Width;
                     break;
                 case ObjMoveType.Down:
-                    y += Y + Height;
+                    y += Height;
                     break;
                 case ObjMoveType.Left:
-                    x += X + -1;
+                    x += -1;
                     break;
             }
             bool vertical = objMoveType == ObjMoveType.Up || objMoveType == ObjMoveType.Down;
@@ -204,13 +193,13 @@ namespace OneEngine.Objs
             for (int i = 0; i < max; i++)
             {
                 //Count distance for anyone Obj
-                foreach (Obj obj in ObjList.Content)
+                foreach (Obj obj in ObjList.GetContent())
                 {
                     if(vertical)
                     {
                         for (int xx = 0; xx < Width; xx++)
                         {
-                            if(obj.X == xx + x && obj.Y == y + i && byPositive)
+                            if (obj.X == xx + x && obj.Y == y + i && byPositive)
                             {
                                 return i;
                             }

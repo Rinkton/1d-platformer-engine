@@ -11,13 +11,14 @@ namespace OneEngine
 
         public GameProc(Objs.Obj[] firstObjs, Visualizer visualizer)
         {
-            ObjList.Content = new List<Objs.Obj>(firstObjs);
+            ObjList.SetContent(new List<Objs.Obj>(firstObjs));
+            ObjList.UpdateContent();
             this.visualizer = visualizer;
         }
 
         public void Run()
         {
-            ObjList.Content.ForEach(obj => obj.Start());
+            ObjList.GetContent().ForEach(obj => obj.Start());
 
             while(true)
             {
@@ -26,9 +27,10 @@ namespace OneEngine
                     break;
                 }
 
-                visualizer.Main(ObjList.Content.ToArray());
+                visualizer.Main(ObjList.GetContent().ToArray());
                 visualizer.SetKeys();
-                ObjList.Content.ForEach(obj => obj.Update());
+                ObjList.GetContent().ForEach(obj => obj.Update());
+                ObjList.UpdateContent();
 
                 Thread.Sleep(1000 / Configurator.Fps);
             }
