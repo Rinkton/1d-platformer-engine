@@ -10,22 +10,22 @@ namespace OneEngine.Objs
 
         #region variables for moving (their description contains in move method, in XML comment)
         private const int jumpPeriodStart = 0;
-        private const int jumpPeriodChange = 200;
+        private const int jumpPeriodChange = 15;
         private readonly Stopwatch jumpStopwatch = new Stopwatch();
         private int jumpIteration = 0;
-        private const int jumpPeriodMaximum = 800;
+        private const int jumpPeriodMaximum = 75;
         private bool jumping = false;
 
-        private const int fallPeriodStart = 500;
-        private const int fallPeriodChange = -100;
+        private const int fallPeriodStart = 75;
+        private const int fallPeriodChange = -15;
         private readonly Stopwatch fallStopwatch = new Stopwatch();
         private int fallIteration = 0;
 
-        private const int walkPeriodStart = 500;
-        private const int walkPeriodChange = -50;
+        private const int walkPeriodStart = 50;
+        private const int walkPeriodChange = -25;
         private readonly Stopwatch walkStopwatch = new Stopwatch();
         private int walkIteration = 0;
-        private const int walkPeriodMaximum = 400;
+        private const int walkPeriodMaximum = 25;
         #endregion
 
         public bool TurnedRight { get; private set; }
