@@ -7,12 +7,12 @@ namespace OneEngine
     /// </summary>
     public abstract class Visualizer
     {
-        public Visualizer(int rows, int columns, string windowName)
+        public Visualizer()
         {
 
         }
 
-        public abstract void Main(Objs.Obj[] objs);
+        public abstract void Main();
 
         public abstract void SetKeys();
     }

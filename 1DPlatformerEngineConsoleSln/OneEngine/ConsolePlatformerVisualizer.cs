@@ -10,19 +10,19 @@ namespace OneEngine
     {
         private ConsoleWindow console;
 
-        public ConsolePlatformerVisualizer(int rows, int columns, string windowName) : base(rows, columns, windowName)
+        public ConsolePlatformerVisualizer(int rows, int columns, string windowName)
         {
             this.console = new ConsoleWindow(rows, columns, windowName);
         }
 
-        public override void Main(Objs.Obj[] objs)
+        public override void Main()
         {
             clearConsole();
 
             var blockType = new Objs.Block().GetType();
             var playerType = new Objs.Player().GetType();
 
-            foreach (Objs.Obj obj in objs)
+            foreach (Objs.Obj obj in ObjList.GetContent())
             {
                 int x = obj.X;
                 int y = obj.Y;

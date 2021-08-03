@@ -8,6 +8,8 @@ namespace OneEngine
         public bool EndGame = false;
 
         private Visualizer visualizer;
+        //TODO: Delete this
+        private Visualizer nonVisualizer = new ConsolePlatformerVisualizer(16, 36, "non 1D Platformer");
 
         public GameProc(Objs.Obj[] firstObjs, Visualizer visualizer)
         {
@@ -27,7 +29,8 @@ namespace OneEngine
                     break;
                 }
 
-                visualizer.Main(ObjList.GetContent().ToArray());
+                visualizer.Main();
+                nonVisualizer.Main();
                 visualizer.SetKeys();
                 ObjList.GetContent().ForEach(obj => obj.Update());
                 ObjList.UpdateContent();
