@@ -71,18 +71,14 @@ namespace OneEngine
 
             Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
 
-            int viewX = playerObj.X + playerObj.Width;
-            int viewY = playerObj.Y + 1;
+            int viewX = playerObj.X + (playerObj.Width - 1);
+            int viewY = playerObj.Y;
 
-            float pov = playerObj.Pov;
             float fov = playerObj.Fov;
-
-            float startAngle = pov - (fov / 2);
 
             for (int i = 0; i < console.Rows; i++)
             {
-                float currentAngle = startAngle + (i * (fov / console.Rows));
-                colorList.Add(castRay(currentAngle, viewX, viewY));
+                colorList.Add(default(Color4));
             }
 
             return colorList.ToArray();
@@ -90,47 +86,12 @@ namespace OneEngine
 
         private Color4 castRay(float currentAngle, int startX, int startY)
         {
-            int x = startX;
-            int y = startY;
-            float step = 0.05f;
-
-            float distance = 0;
-
-            var blockType = new Objs.Block().GetType();
-            var playerType = new Objs.Player().GetType();
-
-            int max = 20;
-            double xx = x;
-            double yy = y;
-
-            while (distance < max)
-            {
-                xx = x + distance * Math.Cos(currentAngle);
-                yy = y + distance * Math.Sin(currentAngle);
-                distance += step;
-                if (x != Math.Floor(xx) || y != Math.Floor(yy))
-                {
-                    foreach (Objs.Obj obj in ObjList.GetContent())
-                    {
-                        if (obj.X == Math.Floor(xx) && obj.Y == Math.Floor(yy))
-                        {
-                            if (blockType == obj.GetType())
-                            {
-                                byte common = Convert.ToByte(255 - (255 / max) * distance);
-                                Color4 objColor = new Color4(common, common, common, 255);
-
-                                return objColor;
-                            }
-                        }
-                    }
-                }
-            }
-
             return default(Color4);
         }
 
         private void visualize(Color4[] colors)
         {
+            //TODO: Eliminate the fisheye effect
             int y = 0;
 
             foreach(Color4 color in colors)

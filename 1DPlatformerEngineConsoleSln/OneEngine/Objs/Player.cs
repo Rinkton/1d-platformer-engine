@@ -8,7 +8,6 @@ namespace OneEngine.Objs
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public float Pov { get; private set; }
         public float Fov { get; private set; }
 
         #region variables for moving (their description contains in move method, in XML comment)
@@ -39,7 +38,7 @@ namespace OneEngine.Objs
             Width = 2;
             Height = 3;
 
-            Pov = 0;
+            //TODO: It's time to hardcode!
             Fov = 90;
 
             TurnedRight = true;

@@ -42,6 +42,14 @@ namespace OneEngine
                             drawSymbol(x+xx, y+yy, symbol, Configurator.DefaultColor);
                         }
                     }
+                    Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
+                    int viewX = playerObj.X + (playerObj.Width - 1);
+                    int viewY = playerObj.Y;
+                    drawSymbol(viewX, viewY, ']', Configurator.DefaultColor);
+                }
+                else
+                {
+                    drawSymbol(x, y, 'F', Configurator.DefaultColor);
                 }
             }
 

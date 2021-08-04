@@ -8,14 +8,14 @@ namespace OneEngine
         public bool EndGame = false;
 
         private Visualizer visualizer;
-        //TODO: Delete this
-        private Visualizer nonVisualizer = new ConsolePlatformerVisualizer(16, 36, "non 1D Platformer");
+        private Visualizer nonVisualizer;
 
         public GameProc(Objs.Obj[] firstObjs, Visualizer visualizer)
         {
             ObjList.SetContent(new List<Objs.Obj>(firstObjs));
             ObjList.UpdateContent();
             this.visualizer = visualizer;
+            nonVisualizer = new ConsolePlatformerVisualizer(35, 36, "non 1D Platformer");
         }
 
         public void Run()
@@ -35,6 +35,7 @@ namespace OneEngine
                 ObjList.GetContent().ForEach(obj => obj.Update());
                 ObjList.UpdateContent();
 
+                //TODO: Need to upgrade it: add a Stopwatch instead Sleep
                 Thread.Sleep(1000 / Configurator.Fps);
             }
         }
