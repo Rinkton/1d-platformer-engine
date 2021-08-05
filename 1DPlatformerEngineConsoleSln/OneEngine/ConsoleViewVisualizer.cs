@@ -67,25 +67,79 @@ namespace OneEngine
 
         private Color4[] getColors()
         {
+            //TODO: All this realization it's a shit and ducttape
+            //TODO: maybe problems with fractional numbers
+            //TODO: maybe problems with start and end cut and all it at all unstable
             List<Color4> colorList = new List<Color4>();
 
             Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
 
-            int viewX = playerObj.X + (playerObj.Width - 1);
-            int viewY = playerObj.Y;
-
             float fov = playerObj.Fov;
+            float start = -(fov / 180);
+
+            float step = -((start * 2) / console.Cols);
+            bool firstHalf = true;
+            float yDir = start;
+            float xDir = 1 + yDir;
 
             for (int i = 0; i < console.Rows; i++)
             {
-                colorList.Add(default(Color4));
+                colorList.Add(castRay(ref firstHalf, ref xDir, ref yDir, step, playerObj));
             }
 
             return colorList.ToArray();
         }
 
-        private Color4 castRay(float currentAngle, int startX, int startY)
+        private Color4 castRay(ref bool firstHalf, ref float xDir, ref float yDir, float step, Objs.Player playerObj)
         {
+            int viewX = playerObj.X + (playerObj.Width - 1);
+            int viewY = playerObj.Y;
+
+            if (xDir >= 1)
+            {
+                firstHalf = false;
+            }
+
+            xDir += playerObj.TurnedRight ? +step : -step;
+            yDir += step;
+
+            int max = 8;
+            int x = 0;
+            int y = 0;
+            float xx = x;
+            float yy = y;
+
+            for(int distance = 0; distance < max; distance++)
+            {
+                while(true)
+                {
+                    xx += xDir;
+                    yy += yDir;
+                    if((Math.Floor(xx) > x || Math.Ceiling(yy) < y) && firstHalf)
+                    {
+                        x = Convert.ToInt32(Math.Round(xx));
+                        y = Convert.ToInt32(Math.Round(yy));
+                        break;
+                    }
+                    else if((Math.Floor(xx) > x || Math.Floor(yy) > y) && !firstHalf)
+                    {
+                        x = Convert.ToInt32(Math.Round(xx));
+                        y = Convert.ToInt32(Math.Round(yy));
+                        break;
+                    }
+                }
+
+                foreach(Objs.Obj obj in ObjList.GetContent())
+                {
+                    if(obj.X == viewX + x && obj.Y == viewY + y)
+                    {
+                        byte common = Convert.ToByte(255 - (255 / max) * distance);
+                        Color4 objColor = new Color4(common, common, common, 255);
+
+                        return objColor;
+                    }
+                }
+            }
             return default(Color4);
         }
 
