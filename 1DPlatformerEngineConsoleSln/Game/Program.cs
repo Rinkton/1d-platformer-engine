@@ -14,7 +14,7 @@ new OneEngine.Objs.Block(17, 15), new OneEngine.Objs.Block(18, 15), new OneEngin
 new OneEngine.Objs.Block(20, 15), new OneEngine.Objs.Block(21, 15), new OneEngine.Objs.Block(22, 15),
 new OneEngine.Objs.Block(23, 15), new OneEngine.Objs.Block(30, 19), new OneEngine.Objs.Block(34, 19),
 new OneEngine.Objs.Block(34, 20), new OneEngine.Objs.Block(34, 21), new OneEngine.Objs.Block(25, 22),
-new OneEngine.Objs.Block(33, 22), new OneEngine.Objs.Block(34, 22), new OneEngine.Objs.Player(3, 25),
+new OneEngine.Objs.Block(33, 22), new OneEngine.Objs.Block(34, 22), new OneEngine.Objs.Player(3+8, 25+1),
 new OneEngine.Objs.Block(34, 23), new OneEngine.Objs.Block(25, 24), new OneEngine.Objs.Block(33, 24),
 new OneEngine.Objs.Block(34, 24), new OneEngine.Objs.Block(18, 25), new OneEngine.Objs.Block(23, 25),
 new OneEngine.Objs.Block(24, 25), new OneEngine.Objs.Block(25, 25), new OneEngine.Objs.Block(26, 25),

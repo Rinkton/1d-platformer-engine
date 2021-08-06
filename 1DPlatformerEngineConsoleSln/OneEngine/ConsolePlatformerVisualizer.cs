@@ -47,10 +47,6 @@ namespace OneEngine
                     int viewY = playerObj.Y;
                     drawSymbol(viewX, viewY, ']', Configurator.DefaultColor);
                 }
-                else
-                {
-                    drawSymbol(x, y, 'F', Configurator.DefaultColor);
-                }
             }
 
             if (!console.WindowUpdate())

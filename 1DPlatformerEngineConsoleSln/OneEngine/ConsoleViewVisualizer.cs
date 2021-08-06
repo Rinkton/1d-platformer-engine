@@ -41,7 +41,6 @@ namespace OneEngine
                 //TODO: Not so good decision, but I hope it's temporarily
                 throw new Exception("WindowUpdate return false.");
             }
-
             System.Diagnostics.Debug.WriteLine(sw.GetTime());
             sw.Stop();
         }
@@ -100,36 +99,28 @@ namespace OneEngine
                 firstHalf = false;
             }
 
-            xDir += playerObj.TurnedRight ? +step : -step;
+            xDir += firstHalf ? +step : -step;
             yDir += step;
 
+            float distance = 0;
+            float distanceStep = 0.5f;
             int max = 8;
             int x = 0;
             int y = 0;
             float xx = x;
             float yy = y;
 
-            for(int distance = 0; distance < max; distance++)
+            while(distance < max)
             {
-                while(true)
-                {
-                    xx += xDir;
-                    yy += yDir;
-                    if((Math.Floor(xx) > x || Math.Ceiling(yy) < y) && firstHalf)
-                    {
-                        x = Convert.ToInt32(Math.Round(xx));
-                        y = Convert.ToInt32(Math.Round(yy));
-                        break;
-                    }
-                    else if((Math.Floor(xx) > x || Math.Floor(yy) > y) && !firstHalf)
-                    {
-                        x = Convert.ToInt32(Math.Round(xx));
-                        y = Convert.ToInt32(Math.Round(yy));
-                        break;
-                    }
-                }
+                xx += xDir * distanceStep;
+                yy += yDir * distanceStep;
 
-                foreach(Objs.Obj obj in ObjList.GetContent())
+                distance += distanceStep;
+
+                x = Convert.ToInt32(Math.Floor(xx));
+                y = Convert.ToInt32(Math.Floor(yy));
+
+                foreach (Objs.Obj obj in ObjList.GetContent())
                 {
                     if(obj.X == viewX + x && obj.Y == viewY + y)
                     {
