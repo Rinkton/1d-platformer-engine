@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using OpenTK.Input;
 
 namespace OneEngine.Objs
@@ -33,6 +34,10 @@ namespace OneEngine.Objs
 
         public bool TurnedRight { get; private set; }
         private bool alreadyTurned = false;
+
+        public float MouseSensitivity = 1f;
+        private readonly int desktopCenterWidth = Screen.PrimaryScreen.Bounds.Size.Width / 2;
+        private readonly int desktopCenterHeight = Screen.PrimaryScreen.Bounds.Size.Height / 2;
 
         public Player(int x=0, int y=0) : base(x, y)
         {
@@ -138,6 +143,20 @@ namespace OneEngine.Objs
                 alreadyTurned = false;
             }
 
+            #endregion
+
+            #region rotate
+            int mouseYDelta = Mouse.GetCursorState().Y - desktopCenterHeight;
+            Pov += mouseYDelta * MouseSensitivity;
+            Mouse.SetPosition(desktopCenterWidth, desktopCenterHeight);
+            if (Pov > 180)
+            {
+                Pov = 180;
+            }
+            else if(Pov < 0)
+            {
+                Pov = 0;
+            }
             #endregion
         }
 

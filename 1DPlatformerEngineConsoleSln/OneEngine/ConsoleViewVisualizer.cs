@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using SunshineConsole;
@@ -20,6 +21,7 @@ namespace OneEngine
         public ConsoleViewVisualizer(int windowHeight, int windowWidth, string windowName)
         {
             this.console = new ConsoleWindow(windowHeight, windowWidth, windowName);
+            console.CursorVisible = false;
         }
 
         public override void Main()
@@ -51,6 +53,7 @@ namespace OneEngine
             KeyChecker.S = console.KeyIsDown(Key.S);
             KeyChecker.Space = console.KeyIsDown(Key.Space);
             KeyChecker.R = console.KeyIsDown(Key.R);
+            KeyChecker.Escape = console.KeyIsDown(Key.Escape);
         }
 
         private void clearConsole()

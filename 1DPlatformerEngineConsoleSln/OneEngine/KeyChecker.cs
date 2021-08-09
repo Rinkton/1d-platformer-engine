@@ -14,5 +14,6 @@ namespace OneEngine
 
         public static bool R;
 
+        public static bool Escape;
     }
 }
