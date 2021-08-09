@@ -9,6 +9,7 @@ namespace OneEngine.Objs
         public int Height { get; private set; }
 
         public float Fov { get; private set; }
+        public float Pov { get; private set; }
 
         #region variables for moving (their description contains in move method, in XML comment)
         private const int jumpPeriodStart = 0;
@@ -39,6 +40,7 @@ namespace OneEngine.Objs
             Height = 3;
 
             Fov = 90;
+            Pov = 90;
 
             TurnedRight = true;
         }

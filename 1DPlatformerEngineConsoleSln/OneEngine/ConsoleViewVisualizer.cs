@@ -74,33 +74,41 @@ namespace OneEngine
             Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
 
             float fov = playerObj.Fov;
-            float start = -(fov / 180);
+            float pov = playerObj.Pov;
+            float start = (fov / 2) + (pov - 90);
 
-            float step = -((start * 2) / console.Cols);
-            bool firstHalf = true;
-            float yDir = start;
-            float xDir = 1 + yDir;
+            float step = fov / console.Cols;
+            float xDir;
+            float yDir;
 
             for (int i = 0; i < console.Rows; i++)
             {
-                colorList.Add(castRay(ref firstHalf, ref xDir, ref yDir, step, playerObj));
+                float currentAngle = start + (step * i);
+                getCoordDirs(currentAngle, out xDir, out yDir);
+                xDir = playerObj.TurnedRight ? xDir * 1 : xDir * -1;
+                colorList.Add(castRay(xDir, yDir, playerObj));
             }
 
             return colorList.ToArray();
         }
 
-        private Color4 castRay(ref bool firstHalf, ref float xDir, ref float yDir, float step, Objs.Player playerObj)
+        private void getCoordDirs(float angle, out float xDir, out float yDir)
         {
-            int viewX = playerObj.X + (playerObj.Width - 1);
-            int viewY = playerObj.Y;
-
-            if (xDir >= 1)
+            if(angle <= 90)
             {
-                firstHalf = false;
+                xDir = angle / 90;
             }
+            else
+            {
+                xDir = 1 - (angle - 90) / 90;
+            }
+            yDir = angle / 90 - 1;
+        }
 
-            xDir += firstHalf ? +step : -step;
-            yDir += step;
+        private Color4 castRay(float xDir, float yDir, Objs.Player playerObj)
+        {
+            int viewX = playerObj.TurnedRight ? playerObj.X + (playerObj.Width - 1) : playerObj.X;
+            int viewY = playerObj.Y;
 
             double distance = 0;
             float distanceStep = 0.5f;
@@ -117,7 +125,7 @@ namespace OneEngine
 
                 foreach (Objs.Obj obj in ObjList.GetContent())
                 {
-                    if(obj.X == viewX + x && obj.Y == viewY + y)
+                    if(obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != playerObj.GetType())
                     {
                         byte common = Convert.ToByte(255 - (255 / max) * distance);
                         Color4 objColor = new Color4(common, common, common, 255);
