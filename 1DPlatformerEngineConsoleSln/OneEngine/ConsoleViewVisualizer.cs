@@ -84,12 +84,15 @@ namespace OneEngine
             float xDir;
             float yDir;
 
+            int viewX = playerObj.TurnedRight ? playerObj.X + (playerObj.Width - 1) : playerObj.X;
+            int viewY = playerObj.Y;
+
             for (int i = 0; i < console.Rows; i++)
             {
                 float currentAngle = start + (step * i);
                 getCoordDirs(currentAngle, out xDir, out yDir);
                 xDir = playerObj.TurnedRight ? xDir * 1 : xDir * -1;
-                colorList.Add(castRay(xDir, yDir, playerObj));
+                colorList.Add(castRay(xDir, yDir, viewX, viewY));
             }
 
             return colorList.ToArray();
@@ -108,11 +111,8 @@ namespace OneEngine
             yDir = angle / 90 - 1;
         }
 
-        private Color4 castRay(float xDir, float yDir, Objs.Player playerObj)
+        private Color4 castRay(float xDir, float yDir, int viewX, int viewY)
         {
-            int viewX = playerObj.TurnedRight ? playerObj.X + (playerObj.Width - 1) : playerObj.X;
-            int viewY = playerObj.Y;
-
             double distance = 0;
             float distanceStep = 0.5f;
             int max = 8;
@@ -128,7 +128,7 @@ namespace OneEngine
 
                 foreach (Objs.Obj obj in ObjList.GetContent())
                 {
-                    if(obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != playerObj.GetType())
+                    if(obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != new Objs.Player().GetType())
                     {
                         byte common = Convert.ToByte(255 - (255 / max) * distance);
                         Color4 objColor = new Color4(common, common, common, 255);

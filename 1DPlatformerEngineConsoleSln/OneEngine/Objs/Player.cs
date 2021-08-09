@@ -41,8 +41,9 @@ namespace OneEngine.Objs
 
         public Player(int x=0, int y=0) : base(x, y)
         {
-            Width = 2;
-            Height = 3;
+            Width = 1;
+            Height = 2;
+            //TODO: Make Player can crouch
 
             Fov = 90;
             Pov = 90;
