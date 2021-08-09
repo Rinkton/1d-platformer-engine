@@ -102,7 +102,7 @@ namespace OneEngine
             xDir += firstHalf ? +step : -step;
             yDir += step;
 
-            float distance = 0;
+            double distance = 0;
             float distanceStep = 0.5f;
             int max = 8;
             int x = 0;
@@ -112,11 +112,6 @@ namespace OneEngine
 
             while(distance < max)
             {
-                xx += xDir * distanceStep;
-                yy += yDir * distanceStep;
-
-                distance += distanceStep;
-
                 x = Convert.ToInt32(Math.Floor(xx));
                 y = Convert.ToInt32(Math.Floor(yy));
 
@@ -130,6 +125,11 @@ namespace OneEngine
                         return objColor;
                     }
                 }
+
+                xx += xDir * distanceStep;
+                yy += yDir * distanceStep;
+
+                distance = Math.Sqrt(Math.Pow(xx, 2) + Math.Pow(yy, 2));
             }
             return default(Color4);
         }

@@ -38,7 +38,6 @@ namespace OneEngine.Objs
             Width = 2;
             Height = 3;
 
-            //TODO: It's time to hardcode!
             Fov = 90;
 
             TurnedRight = true;
