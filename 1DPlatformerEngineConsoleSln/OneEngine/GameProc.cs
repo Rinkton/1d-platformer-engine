@@ -15,7 +15,7 @@ namespace OneEngine
             ObjList.SetContent(new List<Objs.Obj>(firstObjs));
             ObjList.UpdateContent();
             this.visualizer = visualizer;
-            //nonVisualizer = new ConsolePlatformerVisualizer(35, 36, "non 1D Platformer");
+            nonVisualizer = new ConsolePlatformerVisualizer(35, 36, "non 1D Platformer");
         }
 
         public void Run()
@@ -30,7 +30,7 @@ namespace OneEngine
                 }
 
                 visualizer.Main();
-                //nonVisualizer.Main();
+                nonVisualizer.Main();
                 visualizer.SetKeys();
                 EndGame = KeyChecker.Escape;
                 ObjList.GetContent().ForEach(obj => obj.Update());

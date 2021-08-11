@@ -69,7 +69,6 @@ namespace OneEngine
 
         private Color4[] getColors()
         {
-            //TODO: If window bigger, than player seen lower, all is zooming
             List<Color4> colorList = new List<Color4>();
 
             Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
@@ -80,12 +79,12 @@ namespace OneEngine
             float pov = playerObj.Pov;
             float start = (fov / 2) + (pov - 90);
 
-            float step = fov / console.Cols;
+            float step = fov / console.Rows;
             float xDir;
             float yDir;
 
             int viewX = playerObj.TurnedRight ? playerObj.X + (playerObj.Width - 1) : playerObj.X;
-            int viewY = playerObj.Y;
+            int viewY = playerObj.Y+1;
 
             for (int i = 0; i < console.Rows; i++)
             {
