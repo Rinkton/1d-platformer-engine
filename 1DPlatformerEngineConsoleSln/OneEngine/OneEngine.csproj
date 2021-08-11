@@ -63,7 +63,7 @@
     <Compile Include="GameProc.cs" />
     <Compile Include="Objs\Obj.cs" />
     <Compile Include="Objs\Player.cs" />
-    <Compile Include="Timer.cs" />
+    <Compile Include="Stopwatch.cs" />
     <Compile Include="Visualizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

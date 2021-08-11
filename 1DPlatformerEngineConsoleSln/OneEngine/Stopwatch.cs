@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace OneEngine
@@ -14,14 +15,22 @@ namespace OneEngine
             Activated = false;
         }
 
-        public void Restart()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="time">If you declare it, then after pointed time is end, stopwatch stopped</param>
+        public async void RestartAsync(int time = 0)
         {
             startTime = DateTime.Now;
             Activated = true;
+            if(time != 0)
+            {
+                await Task.Run(() => waitTimeEnded(time));
+            }
         }
 
         /// <summary>
-        /// Time in milliseconds.
+        /// Get time in milliseconds.
         /// </summary>
         public int GetTime()
         {
@@ -39,6 +48,18 @@ namespace OneEngine
         public void Stop()
         {
             Activated = false;
+        }
+
+        private void waitTimeEnded(int time)
+        {
+            while(true)
+            {
+                if (GetTime() > time)
+                {
+                    Stop();
+                    break;
+                }
+            }
         }
     }
 }

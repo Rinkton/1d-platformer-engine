@@ -27,7 +27,7 @@ namespace OneEngine
         {
             //TODO: Optimize this shit, 10 fps!
             Stopwatch sw = new Stopwatch();
-            sw.Restart();
+            sw.RestartAsync();
             System.Diagnostics.Debug.WriteLine("start");
 
             clearConsole();

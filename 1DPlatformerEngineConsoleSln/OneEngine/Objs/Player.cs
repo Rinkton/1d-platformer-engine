@@ -33,7 +33,7 @@ namespace OneEngine.Objs
         #endregion
 
         public bool TurnedRight { get; private set; }
-        private bool alreadyTurned = false;
+        private Stopwatch turnStopwatch = new Stopwatch();
 
         public float MouseSensitivity = 1f;
         public bool fixateMouse = true;
@@ -132,39 +132,29 @@ namespace OneEngine.Objs
             }
             #endregion
 
-            #region turn
-            if(KeyChecker.R)
-            {
-                if(alreadyTurned == false)
-                {
-                    turn();
-                    alreadyTurned = true;
-                }
-            }
-            else
-            {
-                alreadyTurned = false;
-            }
-
-            #endregion
-
-            #region rotate
+            #region rotate and turn
             if(KeyChecker.F)
             {
                 if(alreadyFixateMouse == false)
                 {
                     alreadyFixateMouse = true;
                     fixateMouse = !fixateMouse;
-                    System.Diagnostics.Debug.WriteLine(fixateMouse);
-                    System.Diagnostics.Debug.WriteLine(fixateMouse);
-                    System.Diagnostics.Debug.WriteLine(fixateMouse);
-                    System.Diagnostics.Debug.WriteLine(fixateMouse);
                 }
             }
             else
             {
                 alreadyFixateMouse = false;
             }
+
+            #region turn
+            int mouseXDelta = Mouse.GetCursorState().X - previousMouseX;
+            bool turnLimitExceeded = Math.Abs(mouseXDelta) > Configurator.turnLimit * MouseSensitivity;
+            if (turnLimitExceeded && turnStopwatch.Activated == false)
+            {
+                turn();
+                turnStopwatch.RestartAsync(Configurator.turnCooldownTime);
+            }
+            #endregion
 
             int mouseYDelta = Mouse.GetCursorState().Y - previousMouseY;
             Pov += mouseYDelta * MouseSensitivity;
@@ -210,7 +200,7 @@ namespace OneEngine.Objs
         {
             if(stopwatch.Activated == false)
             {
-                stopwatch.Restart();
+                stopwatch.RestartAsync();
             }
 
             int periodActual = periodStart + (periodChange * iteration);
