@@ -3,6 +3,9 @@ using OneEngine;
 
 namespace Game
 {
+    //TODO: Make a opportunity console can have colors
+    //TODO: Turn by mouse
+    //TODO: Make a Player more fat(more width)
     class Program
     {
         static void Main(string[] args)
@@ -37,7 +40,7 @@ new OneEngine.Objs.Block(26, 29), new OneEngine.Objs.Block(27, 29), new OneEngin
 new OneEngine.Objs.Block(29, 29), new OneEngine.Objs.Block(30, 29), new OneEngine.Objs.Block(31, 29),
 new OneEngine.Objs.Block(32, 29), new OneEngine.Objs.Block(33, 29), new OneEngine.Objs.Block(34, 29),
                 };
-            var visualizer = new ConsoleViewVisualizer(35, 36, "1D Platformer");
+            var visualizer = new ConsoleViewVisualizer(36, 120, "1D Platformer");
 
             GameProc gameProc = new GameProc(firstObjs, visualizer);
             gameProc.Run();

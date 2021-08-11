@@ -36,8 +36,10 @@ namespace OneEngine.Objs
         private bool alreadyTurned = false;
 
         public float MouseSensitivity = 1f;
-        private readonly int desktopCenterWidth = Screen.PrimaryScreen.Bounds.Size.Width / 2;
-        private readonly int desktopCenterHeight = Screen.PrimaryScreen.Bounds.Size.Height / 2;
+        public bool fixateMouse = true;
+        private int previousMouseX = Screen.PrimaryScreen.Bounds.Size.Width / 2;
+        private int previousMouseY = Screen.PrimaryScreen.Bounds.Size.Height / 2;
+        private bool alreadyFixateMouse = false; //TODO: It's have fucking efficiency?!
 
         public Player(int x=0, int y=0) : base(x, y)
         {
@@ -147,9 +149,31 @@ namespace OneEngine.Objs
             #endregion
 
             #region rotate
-            int mouseYDelta = Mouse.GetCursorState().Y - desktopCenterHeight;
+            if(KeyChecker.F)
+            {
+                if(alreadyFixateMouse == false)
+                {
+                    alreadyFixateMouse = true;
+                    fixateMouse = !fixateMouse;
+                    System.Diagnostics.Debug.WriteLine(fixateMouse);
+                    System.Diagnostics.Debug.WriteLine(fixateMouse);
+                    System.Diagnostics.Debug.WriteLine(fixateMouse);
+                    System.Diagnostics.Debug.WriteLine(fixateMouse);
+                }
+            }
+            else
+            {
+                alreadyFixateMouse = false;
+            }
+
+            int mouseYDelta = Mouse.GetCursorState().Y - previousMouseY;
             Pov += mouseYDelta * MouseSensitivity;
-            Mouse.SetPosition(desktopCenterWidth, desktopCenterHeight);
+            if(fixateMouse)
+            {
+                Mouse.SetPosition(previousMouseX, previousMouseY);
+            }
+            previousMouseY = Mouse.GetCursorState().Y;
+
             if (Pov > 180)
             {
                 Pov = 180;
@@ -200,7 +224,6 @@ namespace OneEngine.Objs
                 return MoveResult.NotTimeYet;
             }
 
-            //TODO: With jump it so bad go to up
             objMove(objMoveType);
             stopwatch.Stop();
 

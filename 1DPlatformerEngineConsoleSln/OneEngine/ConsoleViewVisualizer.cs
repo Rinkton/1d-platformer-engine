@@ -21,13 +21,11 @@ namespace OneEngine
         public ConsoleViewVisualizer(int windowHeight, int windowWidth, string windowName)
         {
             this.console = new ConsoleWindow(windowHeight, windowWidth, windowName);
-            console.CursorVisible = false;
         }
 
         public override void Main()
         {
             //TODO: Optimize this shit, 10 fps!
-            //TODO: Realize turn
             Stopwatch sw = new Stopwatch();
             sw.Restart();
             System.Diagnostics.Debug.WriteLine("start");
@@ -49,11 +47,13 @@ namespace OneEngine
 
         public override void SetKeys()
         {
+            //TODO: It's exactly effective method?
             KeyChecker.W = console.KeyIsDown(Key.W);
             KeyChecker.S = console.KeyIsDown(Key.S);
             KeyChecker.Space = console.KeyIsDown(Key.Space);
             KeyChecker.R = console.KeyIsDown(Key.R);
             KeyChecker.Escape = console.KeyIsDown(Key.Escape);
+            KeyChecker.F = console.KeyIsDown(Key.F);
         }
 
         private void clearConsole()
@@ -69,12 +69,12 @@ namespace OneEngine
 
         private Color4[] getColors()
         {
-            //TODO: All this realization it's a shit and ducttape
-            //TODO: maybe problems with fractional numbers
-            //TODO: maybe problems with start and end cut and all it at all unstable
+            //TODO: If window bigger, than player seen lower, all is zooming
             List<Color4> colorList = new List<Color4>();
 
             Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
+
+            console.CursorVisible = !playerObj.fixateMouse;
 
             float fov = playerObj.Fov;
             float pov = playerObj.Pov;
@@ -147,7 +147,7 @@ namespace OneEngine
 
         private void visualize(Color4[] colors)
         {
-            //TODO: Eliminate the fisheye effect
+            //TODO: Eliminate the fisheye effect (if it'll appeare)
             int y = 0;
 
             foreach(Color4 color in colors)
