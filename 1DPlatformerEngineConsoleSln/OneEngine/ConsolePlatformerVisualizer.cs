@@ -15,7 +15,7 @@ namespace OneEngine
             this.console = new ConsoleWindow(rows, columns, windowName);
         }
 
-        public override void Main()
+        public override bool Main()
         {
             clearConsole();
 
@@ -49,11 +49,7 @@ namespace OneEngine
                 }
             }
 
-            if (!console.WindowUpdate())
-            {
-                //TODO: Not so good decision, but I hope it's temporarily
-                throw new Exception("WindowUpdate return false.");
-            }
+            return !console.WindowUpdate();
         }
 
         public override void SetKeys()

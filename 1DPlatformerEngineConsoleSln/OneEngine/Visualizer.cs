@@ -11,8 +11,12 @@ namespace OneEngine
         {
 
         }
-
-        public abstract void Main();
+        //TODO: Why "Visualizer" if it's responsible for key detecting too?
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Visualize failed?</returns>
+        public abstract bool Main();
 
         public abstract void SetKeys();
     }

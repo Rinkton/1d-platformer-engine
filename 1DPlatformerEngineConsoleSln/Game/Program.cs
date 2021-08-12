@@ -4,7 +4,6 @@ using OneEngine;
 namespace Game
 {
     //TODO: Make a opportunity console can have colors
-    //TODO: Turn by mouse
     //TODO: Make a Player more fat(more width)
     class Program
     {

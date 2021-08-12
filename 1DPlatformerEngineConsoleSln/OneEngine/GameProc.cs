@@ -29,10 +29,9 @@ namespace OneEngine
                     break;
                 }
 
-                visualizer.Main();
-                nonVisualizer.Main();
+                EndGame = KeyChecker.Escape || visualizer.Main();
+                EndGame = KeyChecker.Escape || nonVisualizer.Main();
                 visualizer.SetKeys();
-                EndGame = KeyChecker.Escape;
                 ObjList.GetContent().ForEach(obj => obj.Update());
                 ObjList.UpdateContent();
 

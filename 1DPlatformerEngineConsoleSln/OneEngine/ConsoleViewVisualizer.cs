@@ -23,7 +23,7 @@ namespace OneEngine
             this.console = new ConsoleWindow(windowHeight, windowWidth, windowName);
         }
 
-        public override void Main()
+        public override bool Main()
         {
             //TODO: Optimize this shit, 10 fps!
             Stopwatch sw = new Stopwatch();
@@ -36,13 +36,10 @@ namespace OneEngine
 
             visualize(colors);
 
-            if (!console.WindowUpdate())
-            {
-                //TODO: Not so good decision, but I hope it's temporarily
-                throw new Exception("WindowUpdate return false.");
-            }
             System.Diagnostics.Debug.WriteLine(sw.GetTime());
             sw.Stop();
+
+            return !console.WindowUpdate();
         }
 
         public override void SetKeys()
