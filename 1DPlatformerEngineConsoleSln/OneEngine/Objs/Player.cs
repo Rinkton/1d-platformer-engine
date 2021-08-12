@@ -36,12 +36,14 @@ namespace OneEngine.Objs
         private Stopwatch turnStopwatch = new Stopwatch();
 
         public float MouseSensitivity = 1f;
-        public bool fixateMouse = true;
-        private int previousMouseX = Screen.PrimaryScreen.Bounds.Size.Width / 2;
+        public bool FixateMouse = true;
+        private readonly int centerScreenX = Screen.PrimaryScreen.Bounds.Size.Width / 2;
         private int previousMouseY = Screen.PrimaryScreen.Bounds.Size.Height / 2;
         private bool alreadyFixateMouse = false; //TODO: It's have fucking efficiency?!
 
-        public Player(int x=0, int y=0) : base(x, y)
+        private Windows.KeyDetector keyDetector;
+
+        public Player(int x=0, int y=0, Windows.KeyDetector keyDetector=null) : base(x, y)
         {
             Width = 1;
             Height = 2;
@@ -51,10 +53,23 @@ namespace OneEngine.Objs
             Pov = 90;
 
             TurnedRight = true;
+
+            this.keyDetector = keyDetector;
         }
 
         public override void Update()
         {
+            //TODO: These things is need do to provide easy type comprasion. Maybe, existing way that easier
+            KeyboardState keyboard;
+            try
+            {
+                keyboard = keyDetector.GetKeyboard();
+            }
+            catch(NullReferenceException)
+            {
+                throw new Exception("It's null. Perhaps, you forget point KeyDetector in Player constructor");
+            }
+
             #region jump and gravity
             int floorDistance = getDistance(ObjMoveType.Down);
 
@@ -76,11 +91,11 @@ namespace OneEngine.Objs
             }
 
             //TODO: But if user key down space between frames it's will don't work
-            if(KeyChecker.Space == false) //It's provide variable jump height
+            if(keyboard.IsKeyDown(Key.Space) == false) //It's provide variable jump height
             {
                 jumping = false;
             }
-            if((KeyChecker.Space && floorDistance == 0) || jumping)
+            if((keyboard.IsKeyDown(Key.Space) && floorDistance == 0) || jumping)
             {
                 MoveResult jumpResult = move(jumpPeriodStart, jumpPeriodChange, jumpStopwatch, 
                     jumpIteration, ObjMoveType.Up, jumpPeriodMaximum);
@@ -106,9 +121,9 @@ namespace OneEngine.Objs
             #endregion
 
             #region walk
-            if (KeyChecker.W || KeyChecker.S)
+            if (keyboard.IsKeyDown(Key.W) || keyboard.IsKeyDown(Key.S))
             {
-                ObjMoveType moveDirection = (KeyChecker.W ^ TurnedRight)
+                ObjMoveType moveDirection = (keyboard.IsKeyDown(Key.W) ^ TurnedRight)
                     ? ObjMoveType.Left : ObjMoveType.Right;
                 MoveResult walkResult = move(walkPeriodStart, walkPeriodChange, walkStopwatch,
                     walkIteration, moveDirection, walkPeriodMaximum);
@@ -133,12 +148,12 @@ namespace OneEngine.Objs
             #endregion
 
             #region rotate and turn
-            if(KeyChecker.F)
+            if(keyboard.IsKeyDown(Key.F))
             {
                 if(alreadyFixateMouse == false)
                 {
                     alreadyFixateMouse = true;
-                    fixateMouse = !fixateMouse;
+                    FixateMouse = !FixateMouse;
                 }
             }
             else
@@ -147,20 +162,20 @@ namespace OneEngine.Objs
             }
 
             #region turn
-            int mouseXDelta = Mouse.GetCursorState().X - previousMouseX;
-            bool turnLimitExceeded = Math.Abs(mouseXDelta) > Configurator.turnLimit * MouseSensitivity;
+            int mouseXDelta = Mouse.GetCursorState().X - centerScreenX;
+            bool turnLimitExceeded = Math.Abs(mouseXDelta) > Configurator.TurnLimit * MouseSensitivity;
             if (turnLimitExceeded && turnStopwatch.Activated == false)
             {
                 turn();
-                turnStopwatch.RestartAsync(Configurator.turnCooldownTime);
+                turnStopwatch.RestartAsync(Configurator.TurnCooldownTime);
             }
             #endregion
 
             int mouseYDelta = Mouse.GetCursorState().Y - previousMouseY;
             Pov += mouseYDelta * MouseSensitivity;
-            if(fixateMouse)
+            if(FixateMouse)
             {
-                Mouse.SetPosition(previousMouseX, previousMouseY);
+                Mouse.SetPosition(centerScreenX, previousMouseY);
             }
             previousMouseY = Mouse.GetCursorState().Y;
 

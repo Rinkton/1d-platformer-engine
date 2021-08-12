@@ -54,17 +54,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyChecker.cs" />
     <Compile Include="ObjList.cs" />
     <Compile Include="Objs\Block.cs" />
     <Compile Include="Configurator.cs" />
-    <Compile Include="ConsolePlatformerVisualizer.cs" />
-    <Compile Include="ConsoleViewVisualizer.cs" />
     <Compile Include="GameProc.cs" />
     <Compile Include="Objs\Obj.cs" />
     <Compile Include="Objs\Player.cs" />
     <Compile Include="Stopwatch.cs" />
-    <Compile Include="Visualizer.cs" />
+    <Compile Include="Windows\ConsolePlatformer\Visualizer.cs" />
+    <Compile Include="Windows\ConsolePlatformer\Window.cs" />
+    <Compile Include="Windows\ConsoleView\Visualizer.cs" />
+    <Compile Include="Windows\ConsoleView\Window.cs" />
+    <Compile Include="Windows\KeyDetector.cs" />
+    <Compile Include="Windows\Presets\KeyDetectorOpenTK.cs" />
+    <Compile Include="Windows\Presets\VisualizerSunshineConsole.cs" />
+    <Compile Include="Windows\Result.cs" />
+    <Compile Include="Windows\Visualizer.cs" />
+    <Compile Include="Windows\Window.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

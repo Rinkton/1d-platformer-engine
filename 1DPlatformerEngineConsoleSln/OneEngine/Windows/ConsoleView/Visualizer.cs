@@ -1,29 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using SunshineConsole;
 
-namespace OneEngine
+namespace OneEngine.Windows.ConsoleView
 {
-    public class ConsoleViewVisualizer : Visualizer
+    class Visualizer : Presets.VisualizerSunshineConsole
     {
-        private ConsoleWindow console;
+        public Visualizer(ConsoleWindow console) : base(console) { }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="windowHeight">Count of rays that need to cast</param>
-        /// <param name="windowWidth">The width to stretch a 1D line</param>
-        /// <param name="windowName"></param>
-        public ConsoleViewVisualizer(int windowHeight, int windowWidth, string windowName)
-        {
-            this.console = new ConsoleWindow(windowHeight, windowWidth, windowName);
-        }
-
-        public override bool Main()
+        public override bool Visualize()
         {
             //TODO: Optimize this shit, 10 fps!
             Stopwatch sw = new Stopwatch();
@@ -34,34 +22,12 @@ namespace OneEngine
 
             Color4[] colors = getColors();
 
-            visualize(colors);
+            drawAll(colors);
 
             System.Diagnostics.Debug.WriteLine(sw.GetTime());
             sw.Stop();
 
-            return !console.WindowUpdate();
-        }
-
-        public override void SetKeys()
-        {
-            //TODO: It's exactly effective method?
-            KeyChecker.W = console.KeyIsDown(Key.W);
-            KeyChecker.S = console.KeyIsDown(Key.S);
-            KeyChecker.Space = console.KeyIsDown(Key.Space);
-            KeyChecker.R = console.KeyIsDown(Key.R);
-            KeyChecker.Escape = console.KeyIsDown(Key.Escape);
-            KeyChecker.F = console.KeyIsDown(Key.F);
-        }
-
-        private void clearConsole()
-        {
-            for (int i = 0; i < console.Rows; i++)
-            {
-                for (int j = 0; j < console.Cols; j++)
-                {
-                    console.Write(i, j, ' ', Color4.Black);
-                }
-            }
+            return !Console.WindowUpdate();
         }
 
         private Color4[] getColors()
@@ -70,20 +36,20 @@ namespace OneEngine
 
             Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
 
-            console.CursorVisible = !playerObj.fixateMouse;
+            Console.CursorVisible = !playerObj.FixateMouse;
 
             float fov = playerObj.Fov;
             float pov = playerObj.Pov;
             float start = (fov / 2) + (pov - 90);
 
-            float step = fov / console.Rows;
+            float step = fov / Console.Rows;
             float xDir;
             float yDir;
 
             int viewX = playerObj.TurnedRight ? playerObj.X + (playerObj.Width - 1) : playerObj.X;
-            int viewY = playerObj.Y+1;
+            int viewY = playerObj.Y + 1;
 
-            for (int i = 0; i < console.Rows; i++)
+            for (int i = 0; i < Console.Rows; i++)
             {
                 float currentAngle = start + (step * i);
                 getCoordDirs(currentAngle, out xDir, out yDir);
@@ -96,7 +62,7 @@ namespace OneEngine
 
         private void getCoordDirs(float angle, out float xDir, out float yDir)
         {
-            if(angle <= 90)
+            if (angle <= 90)
             {
                 xDir = angle / 90;
             }
@@ -117,14 +83,14 @@ namespace OneEngine
             float xx = x;
             float yy = y;
 
-            while(distance < max)
+            while (distance < max)
             {
                 x = Convert.ToInt32(Math.Floor(xx));
                 y = Convert.ToInt32(Math.Floor(yy));
 
                 foreach (Objs.Obj obj in ObjList.GetContent())
                 {
-                    if(obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != new Objs.Player().GetType())
+                    if (obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != new Objs.Player().GetType())
                     {
                         byte common = Convert.ToByte(255 - (255 / max) * distance);
                         Color4 objColor = new Color4(common, common, common, 255);
@@ -141,24 +107,19 @@ namespace OneEngine
             return default(Color4);
         }
 
-        private void visualize(Color4[] colors)
+        private void drawAll(Color4[] colors)
         {
             //TODO: Eliminate the fisheye effect (if it'll appeare)
             int y = 0;
 
-            foreach(Color4 color in colors)
+            foreach (Color4 color in colors)
             {
-                for(int x = 0; x < console.Cols; x++)
+                for (int x = 0; x < Console.Cols; x++)
                 {
-                    drawSymbol(x, y, color);
+                    drawSymbol(x, y, '█', color);
                 }
                 y++;
             }
-        }
-
-        private void drawSymbol(int x, int y, Color4 color)
-        {
-            console.Write(y, x, '█', color);
         }
     }
 }

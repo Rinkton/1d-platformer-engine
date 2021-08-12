@@ -13,8 +13,8 @@ namespace OneEngine
 
         public static Color4 DefaultColor = Color4.LightGray;
 
-        public static int turnLimit = 100;
+        public static int TurnLimit = 100;
 
-        public static int turnCooldownTime = 500;
+        public static int TurnCooldownTime = 500;
     }
 }

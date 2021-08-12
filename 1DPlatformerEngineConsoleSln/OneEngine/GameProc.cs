@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using OpenTK.Input;
 
 namespace OneEngine
 {
@@ -7,15 +8,15 @@ namespace OneEngine
     {
         public bool EndGame = false;
 
-        private Visualizer visualizer;
-        private Visualizer nonVisualizer;
+        private Windows.Window window;
+        private Windows.Window platformerWindow;
 
-        public GameProc(Objs.Obj[] firstObjs, Visualizer visualizer)
+        public GameProc(Objs.Obj[] firstObjs, Windows.Window window)
         {
             ObjList.SetContent(new List<Objs.Obj>(firstObjs));
             ObjList.UpdateContent();
-            this.visualizer = visualizer;
-            nonVisualizer = new ConsolePlatformerVisualizer(35, 36, "non 1D Platformer");
+            this.window = window;
+            platformerWindow = new Windows.ConsolePlatformer.Window(35, 36, "non 1D Platformer");
         }
 
         public void Run()
@@ -29,9 +30,9 @@ namespace OneEngine
                     break;
                 }
 
-                EndGame = KeyChecker.Escape || visualizer.Main();
-                EndGame = KeyChecker.Escape || nonVisualizer.Main();
-                visualizer.SetKeys();
+                KeyboardState keyboard = window.KeyDetector.GetKeyboard();
+                EndGame = keyboard.IsKeyDown(Key.Escape) || window.Main() != Windows.Result.Ok;
+                EndGame = keyboard.IsKeyDown(Key.Escape) || platformerWindow.Main() != Windows.Result.Ok;
                 ObjList.GetContent().ForEach(obj => obj.Update());
                 ObjList.UpdateContent();
 
