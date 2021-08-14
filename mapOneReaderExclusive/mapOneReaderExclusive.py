@@ -1,12 +1,12 @@
-from PIL import Image
-img = Image.open("map.png")
-width, height = img.size
+import imagepixel as ip
+path = "map.png"
+width, height = ip.getsize(path)
 y = 0
 x = 0
 f = open('result.txt', 'w')
-nothing = img.getpixel((0, 0))
-block = img.getpixel((1, 0))
-player = img.getpixel((2, 0))
+nothing = ip.getpixel((0, 0), path)
+block = ip.getpixel((1, 0), path)
+player = ip.getpixel((2, 0), path)
 i = 0
 
 while y < height:
@@ -16,7 +16,7 @@ while y < height:
                 i = 0
                 f.write('\n')
                 print(x)
-            pixel = img.getpixel((x, y))
+            pixel = ip.getpixel((x, y), path)
             if pixel == block:
                 f.write(f"new OneEngine.Objs.Block({x}, {y}), ")
                 i+=1
