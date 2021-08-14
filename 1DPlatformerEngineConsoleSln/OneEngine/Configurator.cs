@@ -16,5 +16,9 @@ namespace OneEngine
         public static int TurnLimit = 100;
 
         public static int TurnCooldownTime = 500;
+
+        public static float Fov = 90;
+
+        public static float Pov = 90;
     }
 }

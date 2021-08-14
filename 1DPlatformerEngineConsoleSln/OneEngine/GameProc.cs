@@ -23,6 +23,10 @@ namespace OneEngine
         {
             ObjList.GetContent().ForEach(obj => obj.Start());
 
+            // Count time between loop iterations for stable FPS
+            Stopwatch betweenIterationsStopwatch = new Stopwatch();
+            betweenIterationsStopwatch.RestartAsync();
+
             while(true)
             {
                 if(EndGame)
@@ -36,8 +40,12 @@ namespace OneEngine
                 ObjList.GetContent().ForEach(obj => obj.Update());
                 ObjList.UpdateContent();
 
-                //TODO: Need to upgrade it: add a Stopwatch instead Sleep
-                Thread.Sleep(1000 / Configurator.Fps);
+                int remainingTime = (1000 / Configurator.Fps) - betweenIterationsStopwatch.GetTime();
+                if(remainingTime > 0)
+                {
+                    Thread.Sleep(remainingTime);
+                }
+                betweenIterationsStopwatch.RestartAsync();
             }
         }
     }

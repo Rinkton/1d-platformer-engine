@@ -49,8 +49,8 @@ namespace OneEngine.Objs
             Height = 2;
             //TODO: Make Player can crouch
 
-            Fov = 90;
-            Pov = 90;
+            Fov = Configurator.Fov;
+            Pov = Configurator.Pov;
 
             TurnedRight = true;
 
