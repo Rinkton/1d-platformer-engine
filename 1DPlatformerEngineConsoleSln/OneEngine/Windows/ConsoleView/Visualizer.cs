@@ -49,15 +49,43 @@ namespace OneEngine.Windows.ConsoleView
             int viewX = playerObj.TurnedRight ? playerObj.X + (playerObj.Width - 1) : playerObj.X;
             int viewY = playerObj.Y + 1;
 
+            int maxDistance = 8;
+
+            List<Objs.Obj> restrictedObjList = getRestrictedObjList(viewX, viewY, maxDistance, maxDistance);
+
             for (int i = 0; i < Console.Rows; i++)
             {
                 float currentAngle = start + (step * i);
                 getCoordDirs(currentAngle, out xDir, out yDir);
                 xDir = playerObj.TurnedRight ? xDir * 1 : xDir * -1;
-                colorList.Add(castRay(xDir, yDir, viewX, viewY));
+                colorList.Add(castRay(xDir, yDir, viewX, viewY, maxDistance, restrictedObjList));
             }
 
             return colorList.ToArray();
+        }
+
+        //TODO: X Y - Position, Width Height - Size
+        private List<Objs.Obj> getRestrictedObjList(int viewX, int viewY, int areaWidth, int areaHeight)
+        {
+            List<Objs.Obj> restrictedObjList = new List<Objs.Obj>();
+
+            #region take only the current area
+            for(int y = -areaHeight; y < areaHeight; y++)
+            {
+                for (int x = -areaWidth; x < areaWidth; x++)
+                {
+                    foreach(Objs.Obj obj in ObjList.GetContent())
+                    {
+                        if (obj.X == viewX + x && obj.Y == viewY + y)
+                        {
+                            restrictedObjList.Add(obj);
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            return restrictedObjList;
         }
 
         private void getCoordDirs(float angle, out float xDir, out float yDir)
@@ -73,26 +101,26 @@ namespace OneEngine.Windows.ConsoleView
             yDir = angle / 90 - 1;
         }
 
-        private Color4 castRay(float xDir, float yDir, int viewX, int viewY)
+        private Color4 castRay(float xDir, float yDir, int viewX, int viewY, int maxDistance, List<Objs.Obj> restrictedObjList)
         {
             double distance = 0;
             float distanceStep = 0.5f;
-            int max = 8;
             int x = 0;
             int y = 0;
             float xx = x;
             float yy = y;
 
-            while (distance < max)
+            while (distance < maxDistance)
             {
                 x = Convert.ToInt32(Math.Floor(xx));
                 y = Convert.ToInt32(Math.Floor(yy));
 
-                foreach (Objs.Obj obj in ObjList.GetContent())
+                //TODO: Put this foreach in special function
+                foreach (Objs.Obj obj in restrictedObjList)
                 {
                     if (obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != new Objs.Player().GetType())
                     {
-                        byte common = Convert.ToByte(255 - (255 / max) * distance);
+                        byte common = Convert.ToByte(255 - (255 / maxDistance) * distance);
                         Color4 objColor = new Color4(common, common, common, 255);
 
                         return objColor;
