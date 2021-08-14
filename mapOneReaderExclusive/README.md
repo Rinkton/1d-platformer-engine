@@ -1,6 +1,6 @@
 First off you needa to create map itself in png format:
 
-![Example map](mapOneReaderExclusive/map.png)
+[Example map](map.png)
 
 In left-upper corner you need along X axis in order colors in your map of void, block, player(In player case need to consider player width and height. You indicate by this point only left-upper corner of player).
 
