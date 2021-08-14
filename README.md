@@ -6,6 +6,6 @@ There are two solutions:
 * MapOneReaderExclusive(MORE) - side app. Python. Get a png picture, read it and at the end produce, written in the code, info about level objects.
 
 You can download game demonstration video:
-![Demonstration](/demonstration.avi)
+[Demonstration](https://drive.google.com/file/d/1tXV88Be_G3Pd2fAg_2A3QID7Ay60KoRx/view?usp=sharing)
 
 You got... nothing? So, it's okay, even developers of this can't understand it to end. But it's main mission of it itself, 1D platformer must be percepted with ever upgrade easier and easier... So, let's move on!
