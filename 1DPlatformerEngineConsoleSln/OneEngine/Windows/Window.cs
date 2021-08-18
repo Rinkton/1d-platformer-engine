@@ -18,11 +18,12 @@ namespace OneEngine.Windows
 
         public virtual Result Main()
         {
-            //TODO: It's unlogically
-            if (Visualizer.Visualize() == true)
+            bool visualizedSuccessfully = Visualizer.Visualize();
+            if (visualizedSuccessfully)
             {
                 return Result.VisualizeFailed;
             }
+
             if (KeyDetector.GetKeyboard().IsKeyDown(Key.Escape))
             {
                 return Result.Exit;

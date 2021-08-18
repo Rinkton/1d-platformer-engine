@@ -43,7 +43,7 @@ namespace OneEngine.Objs
 
         private Windows.KeyDetector keyDetector;
 
-        public Player(int x=0, int y=0, Windows.KeyDetector keyDetector=null) : base(x, y)
+        public Player(int x, int y, Windows.KeyDetector keyDetector) : base(x, y)
         {
             Width = 1;
             Height = 2;
@@ -59,16 +59,7 @@ namespace OneEngine.Objs
 
         public override void Update()
         {
-            //TODO: These things is need do to provide easy type comprasion. Maybe, existing way that easier
-            KeyboardState keyboard;
-            try
-            {
-                keyboard = keyDetector.GetKeyboard();
-            }
-            catch(NullReferenceException)
-            {
-                throw new Exception("It's null. Perhaps, you forget point KeyDetector in Player constructor");
-            }
+            KeyboardState keyboard = keyDetector.GetKeyboard();
 
             #region jump and gravity
             int floorDistance = getDistance(ObjMoveType.Down);

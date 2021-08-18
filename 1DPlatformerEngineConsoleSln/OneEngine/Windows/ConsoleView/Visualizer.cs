@@ -13,7 +13,7 @@ namespace OneEngine.Windows.ConsoleView
 
         public override bool Visualize()
         {
-            //TODO: Optimize this shit, 10 fps!
+            //TODO: Optimization better... but it can be more better, right?
             Stopwatch sw = new Stopwatch();
             sw.RestartAsync();
             System.Diagnostics.Debug.WriteLine("start");
@@ -118,9 +118,9 @@ namespace OneEngine.Windows.ConsoleView
                 //TODO: Put this foreach in special function
                 foreach (Objs.Obj obj in restrictedObjList)
                 {
-                    if (obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != new Objs.Player().GetType())
+                    if (obj.X == viewX + x && obj.Y == viewY + y && obj.GetType() != new Objs.Player(0, 0, null).GetType())
                     {
-                        byte common = Convert.ToByte(255 - (255 / maxDistance) * distance);
+                        byte common = Convert.ToByte(255 - (255 / Math.Sqrt(maxDistance)) * Math.Sqrt(distance));//255 - (255 / maxDistance) * distance);
                         Color4 objColor = new Color4(common, common, common, 255);
 
                         return objColor;

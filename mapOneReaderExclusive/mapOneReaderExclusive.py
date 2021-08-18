@@ -21,7 +21,7 @@ while y < height:
                 f.write(f"new OneEngine.Objs.Block({x}, {y}), ")
                 i+=1
             elif pixel == player:
-                f.write(f"new OneEngine.Objs.Player({x}, {y}), ")
+                f.write(f"new OneEngine.Objs.Player({x}, {y}, window.KeyDetector), ")
                 i+=1
         x+=1
     x = 0
