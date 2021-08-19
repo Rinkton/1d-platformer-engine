@@ -10,9 +10,9 @@ namespace OneEngine.Windows.ConsoleView
         /// <param name="windowHeight">Count of rays that need to cast</param>
         /// <param name="windowWidth">The width to stretch a 1D line</param>
         /// <param name="windowName"></param>
-        public Window(int windowHeight, int windowWidth, string windowName)
+        public Window(int width, int height, string name) : base(width, height, name)
         {
-            ConsoleWindow console = new ConsoleWindow(windowHeight, windowWidth, windowName);
+            ConsoleWindow console = new ConsoleWindow(Height, Width, Name);
             Visualizer = new Visualizer(console);
             KeyDetector = new Presets.KeyDetectorOpenTK();
         }

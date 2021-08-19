@@ -54,10 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjList.cs" />
+    <Compile Include="ObjMap.cs" />
     <Compile Include="Objs\Block.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="GameProc.cs" />
+    <Compile Include="Objs\NullObj.cs" />
     <Compile Include="Objs\Obj.cs" />
     <Compile Include="Objs\Player.cs" />
     <Compile Include="Stopwatch.cs" />

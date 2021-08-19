@@ -7,13 +7,19 @@ namespace OneEngine.Windows
     /// </summary>
     public abstract class Window
     {
+        public readonly int Width;
+        public readonly int Height;
+        public readonly string Name;
+
         public Visualizer Visualizer;
 
         public KeyDetector KeyDetector;
 
-        public Window()
+        public Window(int width, int height, string name)
         {
-
+            Width = width;
+            Height = height;
+            Name = name;
         }
 
         public virtual Result Main()

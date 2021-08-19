@@ -260,34 +260,31 @@ namespace OneEngine.Objs
             for (int i = 0; i < max; i++)
             {
                 //Count distance for anyone Obj
-                foreach (Obj obj in ObjList.GetContent())
+                if(vertical)
                 {
-                    if(vertical)
+                    for (int xx = 0; xx < Width; xx++)
                     {
-                        for (int xx = 0; xx < Width; xx++)
+                        if (ObjMap.ExistObj(xx + x, y + i) && byPositive)
                         {
-                            if (obj.X == xx + x && obj.Y == y + i && byPositive)
-                            {
-                                return i;
-                            }
-                            else if(obj.X == xx + x && obj.Y == y - i && !byPositive)
-                            {
-                                return i;
-                            }
+                            return i;
+                        }
+                        else if(ObjMap.ExistObj(xx + x, y - i) && !byPositive)
+                        {
+                            return i;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    for (int yy = 0; yy < Height; yy++)
                     {
-                        for (int yy = 0; yy < Height; yy++)
+                        if(ObjMap.ExistObj(x + i, yy + y) && byPositive)
                         {
-                            if(obj.X == x + i && obj.Y == yy + y && byPositive)
-                            {
-                                return i;
-                            }
-                            else if(obj.X == x - i && obj.Y == yy + y && !byPositive)
-                            {
-                                return i;
-                            }
+                            return i;
+                        }
+                        else if(ObjMap.ExistObj(x - i, yy + y) && !byPositive)
+                        {
+                            return i;
                         }
                     }
                 }

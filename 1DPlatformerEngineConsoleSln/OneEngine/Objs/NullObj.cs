@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OneEngine.Objs
 {
-    public class Block : Obj
+    //TODO: Btw, check out about nulls in solution
+    class NullObj : Obj
     {
-        public Block(int x, int y) : base(x, y) { }
     }
 }

@@ -13,7 +13,7 @@ namespace OneEngine.Windows.ConsoleView
 
         public override bool Visualize()
         {
-            //TODO: Optimization better... but it can be more better, right?
+            //TODO: Optimization better... but it can be more better, right? For example destroy relating between window height and ray count
             Stopwatch sw = new Stopwatch();
             sw.RestartAsync();
             System.Diagnostics.Debug.WriteLine("start");
@@ -34,7 +34,8 @@ namespace OneEngine.Windows.ConsoleView
         {
             List<Color4> colorList = new List<Color4>();
 
-            Objs.Player playerObj = ObjList.GetContent().OfType<Objs.Player>().First();
+            Type playerType = new Objs.Player(0, 0, null).GetType();
+            Objs.Player playerObj = (Objs.Player)ObjMap.FindFirstObjByThisType(playerType);
 
             Console.CursorVisible = !playerObj.FixateMouse;
 
@@ -74,12 +75,11 @@ namespace OneEngine.Windows.ConsoleView
             {
                 for (int x = -areaWidth; x < areaWidth; x++)
                 {
-                    foreach(Objs.Obj obj in ObjList.GetContent())
+                    Objs.Obj obj = ObjMap.GetObj(viewX + x, viewY + y);
+
+                    if(obj.GetType() != new Objs.NullObj().GetType())
                     {
-                        if (obj.X == viewX + x && obj.Y == viewY + y)
-                        {
-                            restrictedObjList.Add(obj);
-                        }
+                        restrictedObjList.Add(obj);
                     }
                 }
             }
